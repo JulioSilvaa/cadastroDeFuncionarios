@@ -29,6 +29,12 @@ export const TextArea = styled.div`
 
 export const ContainerForm = styled.form`
   max-width: 50%;
+
+  button {
+    padding: 8px;
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
 `;
 
 export const InitialInputForm = styled.div`
@@ -49,7 +55,7 @@ export const UserIdentification = styled.div`
 
 export const ContainerIput = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-direction: column;
   width: 50%;
 
@@ -66,14 +72,15 @@ export const ImgUser = styled.div`
   justify-items: center;
   align-items: center;
   width: 50%;
+  height: 90%;
   display: flex;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-bottom: 8px;
   }
 
@@ -89,7 +96,7 @@ export const ImgUser = styled.div`
 
 export const ConatinerInputAddressAndJob = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-direction: column;
   margin-bottom: 8px;
 

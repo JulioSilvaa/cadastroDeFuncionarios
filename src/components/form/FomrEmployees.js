@@ -1,9 +1,11 @@
+import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import useForm from "hooks/useForm";
 import { useInsertEmployeeDoc } from "hooks/useInsertEmployeeDoc";
 import {
   FaCalendarAlt,
+  FaFileContract,
   FaLightbulb,
   FaPencilAlt,
   FaRegQuestionCircle,
@@ -23,6 +25,9 @@ export default function FomrEmployees() {
     nationality: "",
     birthdate: "",
     description: "",
+    sector: "",
+    wage: "",
+    startOfContract: "",
     image: "",
   });
 
@@ -37,18 +42,16 @@ export default function FomrEmployees() {
     <Container>
       <S.ContainerForm onSubmit={handleSubmitForm}>
         <S.TextArea>
-          <label>
+          <label htmlfor="texta">
             <h2>Fale-nos um pouco sobre você </h2>
             <textarea
-              required
               name="description"
               value={form.description}
               onChange={onChange}
-              id=""
+              id="texta"
               cols="58"
               rows="4"
-              placeholder="Diga quem você é, como os empregados podem entrar em contato com
-        você e qual a sua profissão"
+              placeholder="Diga quem você é, como os empregados podem entrar em contato com você e qual a sua profissão"
             />
           </label>
         </S.TextArea>
@@ -61,7 +64,6 @@ export default function FomrEmployees() {
             <S.ContainerIput>
               <div>
                 <TextField
-                  required
                   id="filled-basic"
                   value={form.firstname}
                   onChange={onChange}
@@ -94,8 +96,8 @@ export default function FomrEmployees() {
                 Foto de perfil <FaLightbulb color="gray" size={20} />
               </h3>
               <p>Adicione uma imagem para o seu perfil </p>
-              <label for="uploadImage">
-                <FaUserAlt size={90} color="gray" />
+              <label htmlfor="uploadImage">
+                <FaUserAlt size={80} color="gray" />
               </label>
               <input
                 type="file"
@@ -111,7 +113,7 @@ export default function FomrEmployees() {
           <div>
             <TextField
               id="filled-basic"
-              label="Emprego"
+              label="Cargo"
               value={form.job}
               name={"job"}
               onChange={onChange}
@@ -121,6 +123,20 @@ export default function FomrEmployees() {
               size="small"
             />
             <span>ex: Vendedor</span>
+          </div>
+          <div>
+            <TextField
+              id="filled-basic"
+              label="Setor"
+              value={form.sector}
+              name={"sector"}
+              onChange={onChange}
+              variant="filled"
+              autoComplete="off"
+              fullWidth
+              size="small"
+            />
+            <span>ex: Assistência Técnica</span>
           </div>
           <div>
             <TextField
@@ -174,6 +190,28 @@ export default function FomrEmployees() {
               />
               <span>ex: Brasileira</span>
             </div>
+            <div>
+              <TextField
+                id="filled-basic"
+                label="Início de contrato"
+                value={form.startOfContract}
+                name={"startOfContract"}
+                onChange={onChange}
+                variant="filled"
+                autoComplete="off"
+                fullWidth
+                size="small"
+                type={"date"}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FaFileContract />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <span>ex: 01/01/2222</span>
+            </div>
           </S.ContainerIput>
           <S.ContainerIput>
             <div>
@@ -195,6 +233,21 @@ export default function FomrEmployees() {
             <div>
               <TextField
                 id="filled-basic"
+                label="Salario"
+                type={"number"}
+                value={form.wage}
+                name={"wage"}
+                onChange={onChange}
+                variant="filled"
+                autoComplete="off"
+                fullWidth
+                size="small"
+              />
+              <span>ex: 2.000,00</span>
+            </div>
+            <div>
+              <TextField
+                id="filled-basic"
                 label="Data de nascimento"
                 variant="filled"
                 autoComplete="off"
@@ -212,13 +265,13 @@ export default function FomrEmployees() {
                   ),
                 }}
               />
-              <span>ex: 30 fev 1999</span>
+              <span>ex: 30/02/1999</span>
             </div>
           </S.ContainerIput>
         </div>
-        <button type="submit" variant="contained">
+        <Button type="submit" variant="contained">
           ADICIONAR
-        </button>
+        </Button>
       </S.ContainerForm>
     </Container>
   );
