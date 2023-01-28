@@ -1,7 +1,11 @@
+import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
-import { useFetchEmployeeshDoc } from "hooks/useFetchEmployeesDoc";
+import { useFetchEmployeeshDoc } from "hooks/useFetchEmployeesDocuments";
+import { useNavigate } from "react-router";
 
 export default function EmployeesList() {
+  const navigate = useNavigate();
+
   const { documents: employees } = useFetchEmployeeshDoc("funcionarios");
 
   const employee = employees && employees;
@@ -28,7 +32,7 @@ export default function EmployeesList() {
   ];
 
   function getid(e) {
-    console.log(e.row);
+    navigate(`editando/${e.id}`);
   }
 
   if (rows)
@@ -39,8 +43,20 @@ export default function EmployeesList() {
           rows={rows}
           columns={columns}
           pageSize={5}
-          rowsPerPageOptions={[6]}
+          rowsPerPageOptions={[5]}
         />
+        <div style={{ margin: "20px auto" }}>
+          <Button
+            onClick={() => {
+              navigate("/adicionando");
+            }}
+            aut
+            variant="contained"
+            color="primary"
+          >
+            ADICIONAR FUNCIONARIO
+          </Button>
+        </div>
       </div>
     );
 }
