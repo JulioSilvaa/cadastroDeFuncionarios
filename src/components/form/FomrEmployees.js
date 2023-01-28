@@ -100,16 +100,16 @@ export default function FomrEmployees() {
                 Foto de perfil <FaLightbulb color="gray" size={20} />
               </h3>
               <p>Adicione uma imagem para o seu perfil </p>
-              <label htmlfor="uploadImage">
+              <label style={{ display: "block" }} htmlfor="uploadImage">
                 <FaUserAlt size={80} color="gray" />
+                <input
+                  type="file"
+                  id="uploadImage"
+                  name={"image"}
+                  onChange={onChange}
+                  value={form.image}
+                />
               </label>
-              <input
-                type="file"
-                id="uploadImage"
-                name={"image"}
-                onChange={onChange}
-                value={form.image}
-              />
             </S.ImgUser>
           </S.UserIdentification>
         </S.InitialInputForm>

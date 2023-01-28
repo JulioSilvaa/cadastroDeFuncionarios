@@ -12,8 +12,8 @@ function FormLogin() {
   const { login } = useAuthentication();
 
   const [form, onChange] = useForm({
-    email: "",
-    password: "",
+    email: !"",
+    password: !"",
   });
   async function handleSubmitForm(e) {
     e.preventDefault();
@@ -33,6 +33,9 @@ function FormLogin() {
             <S.ContainerIput>
               <div>
                 <TextField
+                  required
+                  title="Usuário não cadastrado..."
+                  inputProps={{ pattern: "^[a-zA-Z" }}
                   id="filled-basic"
                   value={form.firstname}
                   onChange={onChange}
@@ -48,6 +51,8 @@ function FormLogin() {
               </div>
               <div>
                 <TextField
+                  required
+                  title="digite uma senha válida"
                   id="filled-basic"
                   label="Senha"
                   value={form.passwor}

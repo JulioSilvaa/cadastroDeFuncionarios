@@ -1,9 +1,15 @@
+import Button from "@mui/material/Button";
 import logo from "assets/logo.png";
 import { useAuthentication } from "hooks/useAuthentication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuthValue } from "context/AuthContext";
 import styles from "./Header.module.css";
 
 const Header = ({ title }) => {
+  const navigate = useNavigate();
+  const { user } = useAuthValue();
+
   const { logout } = useAuthentication();
   return (
     <header className={styles.header}>
@@ -11,13 +17,47 @@ const Header = ({ title }) => {
         <img src={logo} alt="logo da empresa" />
       </Link>
       <div className={styles.title}>
-        <span>PASSO 2 DE 6</span>
-        <h1>{title ? title : "Informações de contato"}</h1>
+        <div>
+          <span>PASSO 2 DE 6</span>
+          <h1>{title ? title : "Informações de contato"}</h1>
+        </div>
+        <div className={styles.containerLinks}>
+          <Button
+            onClick={() => navigate("/")}
+            type="submit"
+            variant="contained"
+          >
+            HOME
+          </Button>
+          <Button
+            onClick={() => navigate("/login")}
+            type="submit"
+            variant="contained"
+          >
+            LOGIN
+          </Button>
+
+          {!user ? (
+            <Button
+              onClick={() => navigate("/registro")}
+              type="submit"
+              variant="contained"
+              color="error"
+            >
+              REGISTRAR
+            </Button>
+          ) : (
+            <Button
+              onClick={logout}
+              type="submit"
+              variant="contained"
+              color="error"
+            >
+              LOGOUT
+            </Button>
+          )}
+        </div>
       </div>
-      <div style={{ alignContent: "end" }}>
-        <Link to={"/login"}>Login</Link>
-      </div>
-      <button onClick={logout}>Sair</button>
     </header>
   );
 };

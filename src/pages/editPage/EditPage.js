@@ -6,7 +6,7 @@ import { useDeleteDocument } from "hooks/useDeleteDocEmployee";
 import { useFetchDocument } from "hooks/useEfecthEmployeeDocument";
 import useForm from "hooks/useForm";
 import { useUpdateDocument } from "hooks/useUpdateDocument";
-
+import { useEffect, useState } from "react";
 import {
   FaCalendarAlt,
   FaFileContract,
@@ -23,44 +23,81 @@ import { useAuthValue } from "context/AuthContext";
 export default function EditPage() {
   // Usando o Hook para pegar o parametro passaro por URL
   const { id } = useParams();
-
   // usando o Hook para pegar o Profile do Funcionário
   const { document } = useFetchDocument("funcionarios", id);
-
   // Hook que realizado o envio do Form para UPDATE
   const { updateDocument } = useUpdateDocument("funcionarios");
-
   //Hook para excluir arquivo
   const { deleteDocument } = useDeleteDocument("funcionarios");
-
   const { user } = useAuthValue();
   const navigate = useNavigate();
-
-  console.log(document);
-
-  const [form, onChange] = useForm({
-    firstname: "",
-    lastname: "",
-    job: "",
-    address: "",
-    telephone: "",
-    email: "",
-    nationality: "",
-    birthdate: "",
-    description: "",
-    sector: "",
-    wage: "",
-    startOfContract: "",
-    image: "",
-  });
-
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [job, setJob] = useState();
+  const [address, setAddress] = useState();
+  const [telephone, setTelephone] = useState();
+  const [email, setEmail] = useState();
+  const [nationality, setNationality] = useState();
+  const [birthdate, setBirthDate] = useState();
+  const [description, setDescription] = useState();
+  const [sector, setSector] = useState();
+  const [wage, setWage] = useState();
+  const [startOfContract, setStartOfContract] = useState();
+  const [image, setImage] = useState();
+  useEffect(() => {
+    setFirstName(document.firstname);
+    setLastName(document.lastname);
+    setJob(document.job);
+    setAddress(document.address);
+    setTelephone(document.telephone);
+    setEmail(document.email);
+    setNationality(document.nationality);
+    setBirthDate(document.birthdate);
+    setDescription(document.description);
+    setSector(document.sector);
+    setWage(document.wage);
+    setStartOfContract(document.startOfContract);
+    setBirthDate(document.birthdate);
+    setImage(document.image);
+  }, [document]);
+  const data = {
+    firstName,
+    lastName,
+    job,
+    address,
+    telephone,
+    email,
+    nationality,
+    birthdate,
+    description,
+    sector,
+    wage,
+    startOfContract,
+    image,
+    uid: user.uid,
+    createdBy: user.displayName,
+  };
+  const [form, onChange] = useForm({ data });
   const handleSubmitForm = (e) => {
     e.preventDefault();
-
-    const data = { ...form, uid: user.uid, createdBy: user.displayName };
-    updateDocument(id, data);
-
-    navigate("/");
+    if (
+      !firstName ||
+      !lastName ||
+      !job ||
+      !address ||
+      !telephone ||
+      !email ||
+      !nationality ||
+      !birthdate ||
+      !sector ||
+      !wage ||
+      !startOfContract
+    ) {
+      alert("Por favor preencha todos os campos");
+    } else {
+      updateDocument(id, data);
+      navigate("/");
+    }
   };
 
   return (
@@ -75,8 +112,10 @@ export default function EditPage() {
               <h2>Fale-nos um pouco sobre você </h2>
               <textarea
                 name="description"
-                value={form.description}
-                onChange={onChange}
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
                 id="texta"
                 cols="58"
                 rows="4"
@@ -95,11 +134,12 @@ export default function EditPage() {
                 <div>
                   <TextField
                     id="filled-basic"
-                    value={form.firstname}
-                    onChange={onChange}
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
                     name={"firstname"}
-                    label="Nome"
-                    variant="filled"
+                    variant="outlined"
                     autoComplete="off"
                     fullWidth
                     size="small"
@@ -110,11 +150,12 @@ export default function EditPage() {
                 <div>
                   <TextField
                     id="filled-basic"
-                    label="Sobrenome"
-                    value={form.lastname}
+                    value={lastName}
                     name={"lastname"}
-                    onChange={onChange}
-                    variant="filled"
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
+                    variant="outlined"
                     autoComplete="off"
                     fullWidth
                     size="small"
@@ -129,14 +170,14 @@ export default function EditPage() {
                 <p>Alterar imagem do perfil </p>
                 <label htmlfor="uploadImage">
                   <FaUserAlt size={80} color="gray" />
+                  <input
+                    type="file"
+                    id="uploadImage"
+                    name={"image"}
+                    onChange={onChange}
+                    value={form.image}
+                  />
                 </label>
-                <input
-                  type="file"
-                  id="uploadImage"
-                  name={"image"}
-                  onChange={onChange}
-                  value={form.image}
-                />
               </S.ImgUser>
             </S.UserIdentification>
           </S.InitialInputForm>
@@ -144,11 +185,12 @@ export default function EditPage() {
             <div>
               <TextField
                 id="filled-basic"
-                label="Cargo"
-                value={form.job}
+                value={job}
                 name={"job"}
-                onChange={onChange}
-                variant="filled"
+                onChange={(e) => {
+                  setJob(e.target.value);
+                }}
+                variant="outlined"
                 autoComplete="off"
                 fullWidth
                 size="small"
@@ -158,11 +200,12 @@ export default function EditPage() {
             <div>
               <TextField
                 id="filled-basic"
-                label="Setor"
-                value={form.sector}
+                value={sector}
                 name={"sector"}
-                onChange={onChange}
-                variant="filled"
+                onChange={(e) => {
+                  setSector(e.target.value);
+                }}
+                variant="outlined"
                 autoComplete="off"
                 fullWidth
                 size="small"
@@ -173,10 +216,12 @@ export default function EditPage() {
               <TextField
                 id="filled-basic"
                 label="Endereço"
-                value={form.address}
+                value={address}
                 name={"address"}
-                onChange={onChange}
-                variant="filled"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+                variant="outlined"
                 autoComplete="off"
                 fullWidth
                 size="small"
@@ -196,11 +241,12 @@ export default function EditPage() {
               <div>
                 <TextField
                   id="filled-basic"
-                  label="Telefone"
-                  value={form.telephone}
+                  value={telephone}
                   name={"telephone"}
-                  onChange={onChange}
-                  variant="filled"
+                  onChange={(e) => {
+                    setTelephone(e.target.value);
+                  }}
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
                   size="small"
@@ -210,11 +256,12 @@ export default function EditPage() {
               <div>
                 <TextField
                   id="filled-basic"
-                  label="Nacionalidade"
-                  value={form.nationality}
+                  value={nationality}
                   name={"nationality"}
-                  onChange={onChange}
-                  variant="filled"
+                  onChange={(e) => {
+                    setNationality(e.target.value);
+                  }}
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
                   size="small"
@@ -225,10 +272,12 @@ export default function EditPage() {
                 <TextField
                   id="filled-basic"
                   label="Início de contrato"
-                  value={form.startOfContract}
+                  value={startOfContract}
                   name={"startOfContract"}
-                  onChange={onChange}
-                  variant="filled"
+                  onChange={(e) => {
+                    setStartOfContract(e.target.value);
+                  }}
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
                   size="small"
@@ -248,13 +297,14 @@ export default function EditPage() {
               <div>
                 <TextField
                   id="filled-basic"
-                  label="Email"
                   type={"email"}
-                  value={form.email}
+                  value={email}
                   name={"email"}
-                  onChange={onChange}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   pattern={"[ a-zA-Z ] { 3, } @ [ a-zA-Z ] { } [ ] 1 { } a-Z"}
-                  variant="filled"
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
                   size="small"
@@ -264,12 +314,13 @@ export default function EditPage() {
               <div>
                 <TextField
                   id="filled-basic"
-                  label="Salario"
                   type={"number"}
-                  value={form.wage}
+                  value={wage}
                   name={"wage"}
-                  onChange={onChange}
-                  variant="filled"
+                  onChange={(e) => {
+                    setWage(e.target.value);
+                  }}
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
                   size="small"
@@ -280,12 +331,14 @@ export default function EditPage() {
                 <TextField
                   id="filled-basic"
                   label="Data de nascimento"
-                  variant="filled"
+                  variant="outlined"
                   autoComplete="off"
                   fullWidth
-                  value={form.birthdate}
+                  value={birthdate}
                   name={"birthdate"}
-                  onChange={onChange}
+                  onChange={(e) => {
+                    setBirthDate(e.target.value);
+                  }}
                   size="small"
                   type={"date"}
                   InputProps={{

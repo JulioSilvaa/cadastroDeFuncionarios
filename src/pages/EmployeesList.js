@@ -12,6 +12,7 @@ export default function EmployeesList() {
   const rows = employee;
 
   const columns = [
+    { field: "image", headerName: "Imagem", width: 200 },
     { field: "firstname", headerName: "Nome", width: 130 },
     { field: "lastname", headerName: "Sobrenome", width: 130 },
     {
@@ -24,7 +25,6 @@ export default function EmployeesList() {
     { field: "email", headerName: "Email", width: 200 },
     { field: "nationality", headerName: "Nacionalidade", width: 200 },
     { field: "sector", headerName: "Setor", width: 200 },
-    { field: "wage", headerName: "Salário", width: 130 },
     { field: "birthdate", headerName: "Data de Nascimento", width: 130 },
     { field: "startOfContract", headerName: "Início de contrato", width: 130 },
     { field: "telephone", headerName: "Telefone", width: 130 },
