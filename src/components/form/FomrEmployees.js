@@ -11,10 +11,13 @@ import {
   FaRegQuestionCircle,
   FaUserAlt,
 } from "react-icons/fa";
+import { useNavigate } from "react-router";
 import Container from "styles/Container";
 import * as S from "./style";
 
 export default function FomrEmployees() {
+  const navigate = useNavigate();
+
   const [form, onChange] = useForm({
     firstname: "",
     lastname: "",
@@ -36,6 +39,7 @@ export default function FomrEmployees() {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     insertDocument(form);
+    navigate("/");
   };
 
   return (
