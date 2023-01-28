@@ -1,18 +1,19 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD2tLu4gXOh2G2pgNj17lw2pTx4rFx3xlk",
-  authDomain: "dbcolaboradores-d7f0f.firebaseapp.com",
-  databaseURL: "https://dbcolaboradores-d7f0f-default-rtdb.firebaseio.com",
-  projectId: "dbcolaboradores-d7f0f",
-  storageBucket: "dbcolaboradores-d7f0f.appspot.com",
-  messagingSenderId: "275908719781",
-  appId: "1:275908719781:web:4585c2d3fa57179870c94c",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAEIN_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
-
+const storage = getStorage(app);
 const db = getFirestore(app);
 
-export { db };
+export { db, storage };

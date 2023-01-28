@@ -33,20 +33,24 @@ function FormRegister() {
             <S.ContainerIput>
               <div>
                 <TextField
+                  required
+                  title="Nome de usuário inválido"
                   id="filled-basic"
                   value={form.displayName}
                   onChange={onChange}
                   name={"displayName"}
-                  label="displayName"
+                  label="Usário"
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: Julio@email.com</span>
+                <span>ex: Usuário</span>
               </div>
               <div>
                 <TextField
+                  required
+                  title="Email inválido"
                   id="filled-basic"
                   value={form.email}
                   onChange={onChange}
@@ -62,6 +66,8 @@ function FormRegister() {
               </div>
               <div>
                 <TextField
+                  required
+                  title=" Senha fraca"
                   id="filled-basic"
                   label="Senha"
                   value={form.password}
@@ -78,7 +84,7 @@ function FormRegister() {
             </S.ContainerIput>
           </S.UserIdentification>
         </S.InitialInputForm>
-        <div>
+        <div style={{ marginTop: "50px" }}>
           <Button type="submit" variant="contained">
             CADASTRAR
           </Button>
