@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField";
 import Header from "components/header/Header";
 import { useDeleteDocument } from "hooks/useDeleteDocEmployee";
 import { useFetchDocument } from "hooks/useEfecthEmployeeDocument";
-import useForm from "hooks/useForm";
 import { useUpdateDocument } from "hooks/useUpdateDocument";
 import { useEffect, useState } from "react";
+
 import {
   FaCalendarAlt,
   FaFileContract,
@@ -20,6 +20,9 @@ import Container from "styles/Container";
 import * as S from "./style";
 
 import { useAuthValue } from "context/AuthContext";
+import useUploadImage from "hooks/useUploadImage";
+import reportPDF from "reports/Reports";
+
 export default function EditPage() {
   // Usando o Hook para pegar o parametro passaro por URL
   const { id } = useParams();
@@ -29,10 +32,15 @@ export default function EditPage() {
   const { updateDocument } = useUpdateDocument("funcionarios");
   //Hook para excluir arquivo
   const { deleteDocument } = useDeleteDocument("funcionarios");
+
   const { user } = useAuthValue();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
+
+  const [handleChange, imgURL] = useUploadImage();
+  console.log(imgURL);
+
+  const [firstname, setFirstName] = useState();
+  const [lastname, setLastName] = useState();
   const [job, setJob] = useState();
   const [address, setAddress] = useState();
   const [telephone, setTelephone] = useState();
@@ -44,6 +52,9 @@ export default function EditPage() {
   const [wage, setWage] = useState();
   const [startOfContract, setStartOfContract] = useState();
   const [image, setImage] = useState();
+
+  console.log(imgURL.toString(), "IMAGEM URL");
+
   useEffect(() => {
     setFirstName(document.firstname);
     setLastName(document.lastname);
@@ -60,9 +71,10 @@ export default function EditPage() {
     setBirthDate(document.birthdate);
     setImage(document.image);
   }, [document]);
+
   const data = {
-    firstName,
-    lastName,
+    firstname,
+    lastname,
     job,
     address,
     telephone,
@@ -77,12 +89,13 @@ export default function EditPage() {
     uid: user.uid,
     createdBy: user.displayName,
   };
-  const [form, onChange] = useForm({ data });
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
+
     if (
-      !firstName ||
-      !lastName ||
+      !firstname ||
+      !lastname ||
       !job ||
       !address ||
       !telephone ||
@@ -125,7 +138,7 @@ export default function EditPage() {
           </S.TextArea>
           <S.InitialInputForm>
             <h2>
-              Alterar as informação de contato{" "}
+              Alterar as informação de contato
               <FaPencilAlt color="gray" size={20} />
             </h2>
 
@@ -134,11 +147,11 @@ export default function EditPage() {
                 <div>
                   <TextField
                     id="filled-basic"
-                    value={firstName}
+                    value={firstname}
                     onChange={(e) => {
                       setFirstName(e.target.value);
                     }}
-                    name={"firstname"}
+                    name={"firstName"}
                     variant="outlined"
                     autoComplete="off"
                     fullWidth
@@ -150,7 +163,7 @@ export default function EditPage() {
                 <div>
                   <TextField
                     id="filled-basic"
-                    value={lastName}
+                    value={lastname}
                     name={"lastname"}
                     onChange={(e) => {
                       setLastName(e.target.value);
@@ -169,13 +182,23 @@ export default function EditPage() {
                 </h3>
                 <p>Alterar imagem do perfil </p>
                 <label htmlfor="uploadImage">
-                  <FaUserAlt size={80} color="gray" />
+                  {!imgURL && <FaUserAlt size={80} color="gray" />}
+                  {imgURL && (
+                    <img
+                      style={{ width: "30%", borderRadius: "50%" }}
+                      src={imgURL}
+                      alt=""
+                    />
+                  )}
+
                   <input
                     type="file"
                     id="uploadImage"
                     name={"image"}
-                    onChange={onChange}
-                    value={form.image}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                    value={image}
                   />
                 </label>
               </S.ImgUser>
@@ -303,7 +326,6 @@ export default function EditPage() {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
-                  pattern={"[ a-zA-Z ] { 3, } @ [ a-zA-Z ] { } [ ] 1 { } a-Z"}
                   variant="outlined"
                   autoComplete="off"
                   fullWidth
@@ -357,9 +379,6 @@ export default function EditPage() {
             <Button type="submit" variant="contained">
               EDITAR DADOS
             </Button>
-            <Button type="submit" variant="contained" color="secondary">
-              GERAR PDF
-            </Button>
             <Button
               onClick={() => {
                 deleteDocument(id);
@@ -372,6 +391,14 @@ export default function EditPage() {
             </Button>
           </S.ContainerButtons>
         </S.ContainerForm>
+        <Button
+          onClick={() => reportPDF(document)}
+          type="submit"
+          variant="contained"
+          color="secondary"
+        >
+          GERAR PDF
+        </Button>
       </Container>
     </>
   );

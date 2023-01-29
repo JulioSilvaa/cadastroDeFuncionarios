@@ -15,8 +15,12 @@ import { useNavigate } from "react-router";
 import Container from "styles/Container";
 import * as S from "./style";
 
+import UploadImage from "hooks/useUploadImage";
+
 export default function FomrEmployees() {
   const navigate = useNavigate();
+
+  const [handleFileUpload, imgURL] = UploadImage();
 
   const [form, onChange] = useForm({
     firstname: "",
@@ -101,12 +105,19 @@ export default function FomrEmployees() {
               </h3>
               <p>Adicione uma imagem para o seu perfil </p>
               <label style={{ display: "block" }} htmlfor="uploadImage">
-                <FaUserAlt size={80} color="gray" />
+                {!imgURL && <FaUserAlt size={80} color="gray" />}
+                {imgURL && (
+                  <img
+                    style={{ width: "90%", borderRadius: "20%" }}
+                    src={imgURL}
+                    alt=""
+                  />
+                )}
                 <input
                   type="file"
                   id="uploadImage"
                   name={"image"}
-                  onChange={onChange}
+                  onChange={handleFileUpload}
                   value={form.image}
                 />
               </label>
@@ -226,7 +237,6 @@ export default function FomrEmployees() {
                 value={form.email}
                 name={"email"}
                 onChange={onChange}
-                pattern={"[ a-zA-Z ] { 3, } @ [ a-zA-Z ] { } [ ] 1 { } a-Z"}
                 variant="filled"
                 autoComplete="off"
                 fullWidth

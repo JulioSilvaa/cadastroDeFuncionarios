@@ -74,6 +74,7 @@ export const ImgUser = styled.div`
   width: 50%;
   height: 90%;
   display: flex;
+  text-align: center;
 
   h3 {
     font-size: 1.2rem;
@@ -92,6 +93,13 @@ export const ImgUser = styled.div`
   input {
     display: none;
   }
+
+  img {
+    margin: 0 auto;
+    display: block;
+    width: 90%;
+    text-align: center;
+  }
 `;
 
 export const ConatinerInputAddressAndJob = styled.div`
@@ -105,4 +113,10 @@ export const ConatinerInputAddressAndJob = styled.div`
     font-weight: bold;
     color: #ccc;
   }
+`;
+
+export const ContainerButtons = styled.div`
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
 `;

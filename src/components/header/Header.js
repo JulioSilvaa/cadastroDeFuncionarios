@@ -29,22 +29,14 @@ const Header = ({ title }) => {
           >
             HOME
           </Button>
-          <Button
-            onClick={() => navigate("/login")}
-            type="submit"
-            variant="contained"
-          >
-            LOGIN
-          </Button>
 
           {!user ? (
             <Button
-              onClick={() => navigate("/registro")}
+              onClick={() => navigate("/login")}
               type="submit"
               variant="contained"
-              color="error"
             >
-              REGISTRAR
+              LOGIN
             </Button>
           ) : (
             <Button
