@@ -26,7 +26,7 @@ function FormRegister() {
     <Container>
       <S.ContainerForm onSubmit={handleSubmitForm}>
         <S.InitialInputForm>
-          <h2>
+          <h2 style={{ marginBottom: "20px" }}>
             Cadastro de usuário <FaLockOpen color="gray" size={20} />
           </h2>
           <S.UserIdentification>

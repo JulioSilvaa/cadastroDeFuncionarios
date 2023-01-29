@@ -92,6 +92,13 @@ export const ImgUser = styled.div`
   input {
     display: none;
   }
+
+  img {
+    margin: 0 auto;
+    display: block;
+    width: 90%;
+    text-align: center;
+  }
 `;
 
 export const ConatinerInputAddressAndJob = styled.div`

@@ -35,7 +35,6 @@ function FormLogin() {
                 <TextField
                   required
                   title="Usuário não cadastrado..."
-                  inputProps={{ pattern: "^[a-zA-Z" }}
                   id="filled-basic"
                   value={form.firstname}
                   onChange={onChange}
@@ -69,10 +68,19 @@ function FormLogin() {
             </S.ContainerIput>
           </S.UserIdentification>
         </S.InitialInputForm>
-
-        <Button type="submit" variant="contained">
-          LOGIN
-        </Button>
+        <S.ContainerButtons>
+          <Button type="submit" variant="contained">
+            LOGIN
+          </Button>
+          <Button
+            onClick={() => navigate("/registro")}
+            type="submit"
+            variant="contained"
+            color="error"
+          >
+            REGISTRAR
+          </Button>
+        </S.ContainerButtons>
       </S.ContainerForm>
     </Container>
   );
