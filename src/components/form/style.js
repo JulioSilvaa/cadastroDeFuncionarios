@@ -116,7 +116,8 @@ export const ConatinerInputAddressAndJob = styled.div`
 `;
 
 export const ContainerButtons = styled.div`
-  width: 40%;
+  width: 300px;
+  width: 30%;
   display: flex;
   justify-content: space-around;
 `;

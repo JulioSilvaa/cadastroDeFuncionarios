@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import { useAuthValue } from "context/AuthContext";
 import useForm from "hooks/useForm";
 import { useInsertEmployeeDoc } from "hooks/useInsertEmployeeDoc";
 import {
@@ -18,6 +19,7 @@ import * as S from "./style";
 import UploadImage from "hooks/useUploadImage";
 
 export default function FomrEmployees() {
+  const { user } = useAuthValue();
   const navigate = useNavigate();
 
   const [handleFileUpload, imgURL] = UploadImage();
@@ -36,13 +38,16 @@ export default function FomrEmployees() {
     wage: "",
     startOfContract: "",
     image: "",
+    uid: user.uid,
+    createdBy: user.displayName,
   });
 
   const { insertDocument } = useInsertEmployeeDoc("funcionarios");
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    insertDocument(form);
+
+    insertDocument({ ...form, image: imgURL });
     navigate("/");
   };
 
@@ -50,7 +55,7 @@ export default function FomrEmployees() {
     <Container>
       <S.ContainerForm onSubmit={handleSubmitForm}>
         <S.TextArea>
-          <label htmlfor="texta">
+          <label>
             <h2>Fale-nos um pouco sobre você </h2>
             <textarea
               name="description"
@@ -104,11 +109,11 @@ export default function FomrEmployees() {
                 Foto de perfil <FaLightbulb color="gray" size={20} />
               </h3>
               <p>Adicione uma imagem para o seu perfil </p>
-              <label style={{ display: "block" }} htmlfor="uploadImage">
+              <label style={{ display: "block" }}>
                 {!imgURL && <FaUserAlt size={80} color="gray" />}
                 {imgURL && (
                   <img
-                    style={{ width: "90%", borderRadius: "20%" }}
+                    style={{ width: "30%", borderRadius: "20%" }}
                     src={imgURL}
                     alt=""
                   />
@@ -117,8 +122,10 @@ export default function FomrEmployees() {
                   type="file"
                   id="uploadImage"
                   name={"image"}
-                  onChange={handleFileUpload}
                   value={form.image}
+                  onChange={(e) => {
+                    handleFileUpload(e);
+                  }}
                 />
               </label>
             </S.ImgUser>
@@ -270,7 +277,7 @@ export default function FomrEmployees() {
                 name={"birthdate"}
                 onChange={onChange}
                 size="small"
-                type={"date"}
+                type={"date-local"}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

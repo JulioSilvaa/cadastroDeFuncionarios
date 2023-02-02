@@ -3,13 +3,11 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vsf = pdfFonts.pdfMake.vsf;
 
 function reportPDF(employee) {
-  console.log(employee.uid);
-
   const reportTitle = [
     {
       text: "employee.firstName",
       fontSize: 20,
-      bold: true,
+
       margin: [15, 20, 0, 45],
     },
   ];

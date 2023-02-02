@@ -37,7 +37,6 @@ export default function EditPage() {
   const navigate = useNavigate();
 
   const [handleChange, imgURL] = useUploadImage();
-  console.log(imgURL);
 
   const [firstname, setFirstName] = useState();
   const [lastname, setLastName] = useState();
@@ -52,8 +51,6 @@ export default function EditPage() {
   const [wage, setWage] = useState();
   const [startOfContract, setStartOfContract] = useState();
   const [image, setImage] = useState();
-
-  console.log(imgURL.toString(), "IMAGEM URL");
 
   useEffect(() => {
     setFirstName(document.firstname);
@@ -93,6 +90,17 @@ export default function EditPage() {
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
+    console.log(
+      {
+        dadosAntigos: document,
+        dadosNovos: {
+          ...data,
+          image: imgURL,
+        },
+      },
+      "histórico de atualização"
+    );
+
     if (
       !firstname ||
       !lastname ||
@@ -108,7 +116,10 @@ export default function EditPage() {
     ) {
       alert("Por favor preencha todos os campos");
     } else {
-      updateDocument(id, data);
+      updateDocument(id, {
+        ...data,
+        image: imgURL,
+      });
       navigate("/");
     }
   };
@@ -121,7 +132,7 @@ export default function EditPage() {
       <Container>
         <S.ContainerForm onSubmit={handleSubmitForm}>
           <S.TextArea>
-            <label htmlfor="texta">
+            <label>
               <h2>Fale-nos um pouco sobre você </h2>
               <textarea
                 name="description"
@@ -156,7 +167,6 @@ export default function EditPage() {
                     autoComplete="off"
                     fullWidth
                     size="small"
-                    aria-readonly="true"
                   />
                   <span>ex: Julio</span>
                 </div>
@@ -181,16 +191,16 @@ export default function EditPage() {
                   Foto de perfil <FaLightbulb color="gray" size={20} />
                 </h3>
                 <p>Alterar imagem do perfil </p>
-                <label htmlfor="uploadImage">
-                  {!imgURL && <FaUserAlt size={80} color="gray" />}
-                  {imgURL && (
+                <label>
+                  {!imgURL && !image ? (
+                    <FaUserAlt size={80} color="gray" />
+                  ) : (
                     <img
-                      style={{ width: "30%", borderRadius: "50%" }}
-                      src={imgURL}
+                      style={{ width: "28%", borderRadius: "50%" }}
+                      src={imgURL || image}
                       alt=""
                     />
                   )}
-
                   <input
                     type="file"
                     id="uploadImage"
@@ -198,7 +208,6 @@ export default function EditPage() {
                     onChange={(e) => {
                       handleChange(e);
                     }}
-                    value={image}
                   />
                 </label>
               </S.ImgUser>
