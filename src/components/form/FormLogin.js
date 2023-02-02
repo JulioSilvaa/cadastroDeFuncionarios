@@ -2,18 +2,20 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useAuthentication } from "hooks/useAuthentication";
 import useForm from "hooks/useForm";
+import { useEffect, useState } from "react";
 import { FaLockOpen } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Container from "styles/Container";
 import * as S from "./style";
 
 function FormLogin() {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuthentication();
+  const { login, error: authError } = useAuthentication();
 
   const [form, onChange] = useForm({
-    email: !"",
-    password: !"",
+    email: "",
+    password: "",
   });
   async function handleSubmitForm(e) {
     e.preventDefault();
@@ -21,14 +23,22 @@ function FormLogin() {
     navigate("/");
   }
 
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+    }
+  }, [authError]);
+
+  if (authError) setError(authError);
+
   return (
     <Container>
+      {error && <p className="error">{error}</p>}
       <S.ContainerForm onSubmit={handleSubmitForm}>
         <S.InitialInputForm>
           <h2>
             Login <FaLockOpen color="gray" size={20} />
           </h2>
-
           <S.UserIdentification>
             <S.ContainerIput>
               <div>

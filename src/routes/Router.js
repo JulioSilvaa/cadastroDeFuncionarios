@@ -34,7 +34,9 @@ function Router() {
     <AuthProvider value={{ user }}>
       <BrowserRouter>
         <Routes>
+          {/* Rotas publicas */}
           <Route exact path="/" element={<Home />} />
+          {/* Rotas controladas */}
           <Route
             path="/login"
             element={!user ? <Login /> : <Navigate to={"/"} />}

@@ -29,7 +29,6 @@ const Header = ({ title }) => {
           >
             HOME
           </Button>
-
           {!user ? (
             <Button
               onClick={() => navigate("/login")}
@@ -48,6 +47,7 @@ const Header = ({ title }) => {
               LOGOUT
             </Button>
           )}
+          {user ? <p>Bem vindo!! {user.displayName}</p> : ""}
         </div>
       </div>
     </header>

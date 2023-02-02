@@ -20,7 +20,7 @@ function FormRegister() {
 
     const user = form;
 
-    const res = await createUser(user);
+    return await createUser(user);
   };
   return (
     <Container>
@@ -35,7 +35,6 @@ function FormRegister() {
                 <TextField
                   required
                   title="Nome de usuário inválido"
-                  id="filled-basic"
                   value={form.displayName}
                   onChange={onChange}
                   name={"displayName"}
@@ -51,7 +50,6 @@ function FormRegister() {
                 <TextField
                   required
                   title="Email inválido"
-                  id="filled-basic"
                   value={form.email}
                   onChange={onChange}
                   name={"email"}
@@ -68,7 +66,6 @@ function FormRegister() {
                 <TextField
                   required
                   title=" Senha fraca"
-                  id="filled-basic"
                   label="Senha"
                   value={form.password}
                   name={"password"}

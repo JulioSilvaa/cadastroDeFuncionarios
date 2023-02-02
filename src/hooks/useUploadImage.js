@@ -4,20 +4,21 @@ import { storage } from "../firebase/firebaseConfig";
 
 function UploadImage() {
   const [imgURL, setImgURL] = useState("");
-  const [progress, setProgress] = useState(0);
+  const [progressValue, setProgress] = useState("");
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const storageRef = ref(storage, `fotos/${file.name}`).put(file);
+    const storageRef = ref(storage, `images/${file.name}`);
     const uploadProcess = uploadBytesResumable(storageRef, file);
 
     uploadProcess.on(
       "state_changed",
       (snapshot) => {
-        const progressValue =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progressValue = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgress(progressValue);
       },
 
@@ -29,7 +30,7 @@ function UploadImage() {
       }
     );
   };
-  return [handleFileUpload, imgURL, progress];
+  return [handleFileUpload, imgURL, progressValue];
 }
 
 export default UploadImage;
