@@ -1,40 +1,51 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useAuthentication } from "hooks/useAuthentication";
-import useForm from "hooks/useForm";
-import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Container from "styles/Container";
+import { strongpassword } from "utils/validations";
+import * as yup from "yup";
 import * as S from "./style";
 
+const schema = yup
+  .object()
+  .shape({
+    password: yup
+      .string()
+      .trim()
+      .required("Campo obrigatório")
+      .matches(
+        strongpassword,
+        "A senha deve conter pelo menos 8 caracteres, uma maiúscula, um número e um caractere especial"
+      ),
+
+    email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
+  })
+  .required();
+
 function FormLogin() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, error: authError } = useAuthentication();
+  const { login } = useAuthentication();
 
-  const [form, onChange] = useForm({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit: onSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
-  async function handleSubmitForm(e) {
-    e.preventDefault();
-    login(form);
+
+  const handleSubmitForm = (data) => {
+    login(data);
     navigate("/");
-  }
-
-  useEffect(() => {
-    if (authError) {
-      setError(authError);
-    }
-  }, [authError]);
-
-  if (authError) setError(authError);
+  };
 
   return (
     <Container>
-      {error && <p className="error">{error}</p>}
-      <S.ContainerForm onSubmit={handleSubmitForm}>
+      <S.ContainerForm onSubmit={onSubmit(handleSubmitForm)}>
         <S.InitialInputForm>
           <h2>
             Login <FaLockOpen color="gray" size={20} />
@@ -44,11 +55,7 @@ function FormLogin() {
               <div>
                 <TextField
                   required
-                  title="Usuário não cadastrado..."
-                  id="filled-basic"
-                  value={form.firstname}
-                  onChange={onChange}
-                  name={"email"}
+                  {...register("email", { required: true })}
                   label="Email"
                   type={"email"}
                   variant="filled"
@@ -56,24 +63,32 @@ function FormLogin() {
                   fullWidth
                   size="small"
                 />
-                <span>ex: Julio@email.com</span>
+                {errors.email ? (
+                  <S.ContainerErrorMessage>
+                    {errors.email.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: Julio@email.com</span>
+                )}
               </div>
               <div>
                 <TextField
                   required
-                  title="digite uma senha válida"
-                  id="filled-basic"
+                  {...register("password", { required: true })}
                   label="Senha"
-                  value={form.passwor}
-                  name={"password"}
-                  onChange={onChange}
                   type={"password"}
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: asarwe12</span>
+                {errors.password ? (
+                  <S.ContainerErrorMessage>
+                    {errors.password.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: sarwe2A!</span>
+                )}
               </div>
             </S.ContainerIput>
           </S.UserIdentification>

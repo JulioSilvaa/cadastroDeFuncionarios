@@ -5,6 +5,7 @@ import { useAuthValue } from "context/AuthContext";
 import { useFetchEmployeeshDoc } from "hooks/useFetchEmployeesDocuments";
 import moment from "moment/moment";
 import { useNavigate } from "react-router";
+import * as S from "./style";
 
 export default function EmployeesList() {
   const { user } = useAuthValue();
@@ -19,7 +20,7 @@ export default function EmployeesList() {
   const columns = [
     {
       field: "images",
-      headerName: "Photo",
+      headerName: "Foto",
       width: 70,
       renderCell: (params) => (
         <Tooltip title={params.row.firstname}>
@@ -29,22 +30,37 @@ export default function EmployeesList() {
       sortable: false,
       filterable: false,
     },
-    { field: "firstname", headerName: "Nome", width: 130 },
-    { field: "lastname", headerName: "Sobrenome", width: 130 },
-    {
-      field: "age",
-      headerName: "idade",
-      type: "number",
-      width: 70,
-    },
-    { field: "job", headerName: "Cargo", width: 200 },
+    { field: "firstname", headerName: "Nome", width: 150 },
+    { field: "lastname", headerName: "Sobrenome", width: 150 },
     { field: "email", headerName: "Email", width: 200 },
     { field: "nationality", headerName: "Nacionalidade", width: 200 },
-    { field: "sector", headerName: "Setor", width: 100 },
-    { field: "birthdate", headerName: "Data de Nascimento", width: 130 },
-    { field: "startOfContract", headerName: "Início de contrato", width: 130 },
-    { field: "telephone", headerName: "Telefone", width: 130 },
-    { field: "description", headerName: "Descrição", width: 200 },
+    { field: "sector", headerName: "Setor", width: 150 },
+    { field: "job", headerName: "Cargo", width: 150 },
+    { field: "telephone", headerName: "Telefone", width: 150 },
+    { field: "description", headerName: "Descrição", width: 300 },
+    {
+      field: "wage",
+      headerName: "Salário",
+      width: 150,
+      renderCell: (params) =>
+        new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(params.row.wage),
+    },
+    {
+      field: "birthdate",
+      headerName: "Nascido em :",
+      width: 130,
+      renderCell: (params) => moment(params.row.birthdate).format("DD-MM-YYYY"),
+    },
+    {
+      field: "startOfContract",
+      headerName: "Início de contrato",
+      width: 130,
+      renderCell: (params) =>
+        moment(params.row.startOfContract).format("DD-MM-YYYY"),
+    },
     {
       field: "createdBy",
       headerName: "Adicionado por:",
@@ -65,15 +81,15 @@ export default function EmployeesList() {
 
   if (rows)
     return (
-      <div style={{ height: 400, width: "90%", margin: "20px auto" }}>
+      <S.ContainerTableInHome>
         <DataGrid
           onRowClick={getid}
           rows={rows}
           rowSpacingType={"margin"}
           color={{ color: "blue" }}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={7}
+          rowsPerPageOptions={[7]}
         />
         {user ? (
           <div style={{ margin: "20px auto" }}>
@@ -91,6 +107,6 @@ export default function EmployeesList() {
         ) : (
           ""
         )}
-      </div>
+      </S.ContainerTableInHome>
     );
 }
