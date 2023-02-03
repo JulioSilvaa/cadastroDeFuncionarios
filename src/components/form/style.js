@@ -13,8 +13,7 @@ export const TextArea = styled.div`
   textarea {
     background: none;
     border: none;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
     cursor: pointer;
   }
 
@@ -33,7 +32,7 @@ export const ContainerForm = styled.form`
   button {
     padding: 8px;
     font-size: 1.2rem;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 `;
 
@@ -61,7 +60,6 @@ export const ContainerIput = styled.div`
 
   span {
     font-size: 0.8rem;
-    font-weight: bold;
     color: #ccc;
   }
 `;
@@ -110,7 +108,6 @@ export const ConatinerInputAddressAndJob = styled.div`
 
   span {
     font-size: 0.8rem;
-    font-weight: bold;
     color: #ccc;
   }
 `;
@@ -120,4 +117,11 @@ export const ContainerButtons = styled.div`
   width: 30%;
   display: flex;
   justify-content: space-around;
+`;
+
+export const ContainerErrorMessage = styled.p`
+  color: #cf0e0e;
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0;
 `;

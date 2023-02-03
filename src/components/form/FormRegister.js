@@ -1,30 +1,53 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useAuthentication } from "hooks/useAuthentication";
-import useForm from "hooks/useForm";
+import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
 import Container from "styles/Container";
+import { strongpassword } from "utils/validations";
+import * as yup from "yup";
 import * as S from "./style";
 
-function FormRegister() {
-  const { createUser } = useAuthentication();
+const schema = yup
+  .object()
+  .shape({
+    displayName: yup.string().trim().required("Digite um para o usuário"),
+    password: yup
+      .string()
+      .trim()
+      .required("Campo obrigatório")
+      .matches(
+        strongpassword,
+        "A senha deve conter pelo menos 8 caracteres, uma maiúscula, um número e um caractere especial"
+      ),
 
-  const [form, onChange] = useForm({
-    email: "",
-    password: "",
-    displayName: "",
+    email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
+  })
+  .required();
+
+function FormRegister() {
+  const {
+    register,
+    handleSubmit: onSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
+  const handleSubmitForm = (data) => {
+    console.log(data);
 
-    const user = form;
+    const user = data;
 
-    return await createUser(user);
+    return createUser(user);
   };
+
+  const { createUser } = useAuthentication();
+
   return (
     <Container>
-      <S.ContainerForm onSubmit={handleSubmitForm}>
+      <S.ContainerForm onSubmit={onSubmit(handleSubmitForm)}>
         <S.InitialInputForm>
           <h2 style={{ marginBottom: "20px" }}>
             Cadastro de usuário <FaLockOpen color="gray" size={20} />
@@ -33,26 +56,24 @@ function FormRegister() {
             <S.ContainerIput>
               <div>
                 <TextField
-                  required
-                  title="Nome de usuário inválido"
-                  value={form.displayName}
-                  onChange={onChange}
-                  name={"displayName"}
+                  {...register("displayName", { required: true })}
                   label="Usário"
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: Usuário</span>
+                {errors.displayName ? (
+                  <S.ContainerErrorMessage>
+                    {errors.displayName.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: Usuário</span>
+                )}
               </div>
               <div>
                 <TextField
-                  required
-                  title="Email inválido"
-                  value={form.email}
-                  onChange={onChange}
-                  name={"email"}
+                  {...register("email", { required: true })}
                   label="Email"
                   type={"email"}
                   variant="filled"
@@ -60,23 +81,31 @@ function FormRegister() {
                   fullWidth
                   size="small"
                 />
-                <span>ex: Julio@email.com</span>
+                {errors.email ? (
+                  <S.ContainerErrorMessage>
+                    {errors.email.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: Julio@email.com</span>
+                )}
               </div>
               <div>
                 <TextField
-                  required
-                  title=" Senha fraca"
+                  {...register("password", { required: true })}
                   label="Senha"
-                  value={form.password}
-                  name={"password"}
-                  onChange={onChange}
                   type={"password"}
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: asarwe12</span>
+                {errors.password ? (
+                  <S.ContainerErrorMessage>
+                    {errors.password.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: sarwe2A!</span>
+                )}
               </div>
             </S.ContainerIput>
           </S.UserIdentification>

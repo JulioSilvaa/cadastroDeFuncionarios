@@ -1,9 +1,10 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useAuthValue } from "context/AuthContext";
-import useForm from "hooks/useForm";
 import { useInsertEmployeeDoc } from "hooks/useInsertEmployeeDoc";
+import { useForm } from "react-hook-form";
 import {
   FaCalendarAlt,
   FaFileContract,
@@ -14,53 +15,75 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Container from "styles/Container";
+import { telephoneNumber } from "utils/validations";
+import * as yup from "yup";
 import * as S from "./style";
 
 import UploadImage from "hooks/useUploadImage";
 
-export default function FomrEmployees() {
-  const { user } = useAuthValue();
-  const navigate = useNavigate();
+const schema = yup
+  .object()
+  .shape({
+    description: yup
+      .string()
+      .max(500, "campo deve ser preenchido com ate 500 caracteres"),
+    firstname: yup
+      .string()
+      .trim()
+      .required("Campo obrigatório")
+      .max(20, "Nome pode conter até 30 letras"),
+    lastname: yup.string().lowercase().trim().required("Campo obrigatório"),
+    job: yup.string().required("Campo obrigatório"),
+    address: yup.string().required("Campo obrigatório"),
+    telephone: yup
+      .string()
+      .matches(
+        telephoneNumber,
+        "Digite conforme o exemplo ex: (16) 9 9999-9999"
+      )
+      .required("Campo obrigatório"),
+    email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
+    nationality: yup.string().required("Campo obrigatório"),
+    birthdate: yup.string().required("Campo obrigatório"),
+    sector: yup.string().required("Campo obrigatório"),
+    wage: yup.string().required("Campo obrigatório"),
+    startOfContract: yup.string().required("Campo obrigatório"),
+    image: yup.string().notRequired(),
+  })
+  .required();
 
+export default function FomrEmployees() {
+  const { insertDocument } = useInsertEmployeeDoc("funcionarios");
   const [handleFileUpload, imgURL] = UploadImage();
 
-  const [form, onChange] = useForm({
-    firstname: "",
-    lastname: "",
-    job: "",
-    address: "",
-    telephone: "",
-    email: "",
-    nationality: "",
-    birthdate: "",
-    description: "",
-    sector: "",
-    wage: "",
-    startOfContract: "",
-    image: "",
-    uid: user.uid,
-    createdBy: user.displayName,
+  const {
+    register,
+    handleSubmit: onSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
-
-  const { insertDocument } = useInsertEmployeeDoc("funcionarios");
-
-  const handleSubmitForm = (e) => {
-    e.preventDefault();
-
-    insertDocument({ ...form, image: imgURL });
+  const handleSubmitForm = (data) => {
+    insertDocument({
+      ...data,
+      uid: user.uid,
+      createdBy: user.displayName,
+      image: imgURL,
+    });
     navigate("/");
   };
 
+  const { user } = useAuthValue();
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <S.ContainerForm onSubmit={handleSubmitForm}>
+      <S.ContainerForm onSubmit={onSubmit(handleSubmitForm)}>
         <S.TextArea>
           <label>
             <h2>Fale-nos um pouco sobre você </h2>
             <textarea
-              name="description"
-              value={form.description}
-              onChange={onChange}
+              {...register("description")}
               id="texta"
               cols="58"
               rows="4"
@@ -77,31 +100,37 @@ export default function FomrEmployees() {
             <S.ContainerIput>
               <div>
                 <TextField
-                  id="filled-basic"
-                  value={form.firstname}
-                  onChange={onChange}
-                  name={"firstname"}
+                  {...register("firstname", { required: true })}
                   label="Nome"
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: Julio</span>
+                {errors.firstname ? (
+                  <S.ContainerErrorMessage>
+                    {errors.firstname.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: Julio</span>
+                )}
               </div>
               <div>
                 <TextField
-                  id="filled-basic"
+                  {...register("lastname", { required: true })}
                   label="Sobrenome"
-                  value={form.lastname}
-                  name={"lastname"}
-                  onChange={onChange}
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
-                <span>ex: Silva</span>
+                {errors.lastname ? (
+                  <S.ContainerErrorMessage>
+                    {errors.lastname.message}
+                  </S.ContainerErrorMessage>
+                ) : (
+                  <span>ex: Silva</span>
+                )}
               </div>
             </S.ContainerIput>
             <S.ImgUser>
@@ -110,19 +139,17 @@ export default function FomrEmployees() {
               </h3>
               <p>Adicione uma imagem para o seu perfil </p>
               <label style={{ display: "block" }}>
-                {!imgURL && <FaUserAlt size={80} color="gray" />}
+                {!imgURL && <FaUserAlt size={90} color="gray" />}
                 {imgURL && (
                   <img
-                    style={{ width: "30%", borderRadius: "20%" }}
+                    style={{ width: "40%", borderRadius: "50%" }}
                     src={imgURL}
                     alt=""
                   />
                 )}
                 <input
                   type="file"
-                  id="uploadImage"
-                  name={"image"}
-                  value={form.image}
+                  {...register("image")}
                   onChange={(e) => {
                     handleFileUpload(e);
                   }}
@@ -134,39 +161,43 @@ export default function FomrEmployees() {
         <S.ConatinerInputAddressAndJob>
           <div>
             <TextField
-              id="filled-basic"
+              {...register("job", { required: true })}
               label="Cargo"
-              value={form.job}
-              name={"job"}
-              onChange={onChange}
               variant="filled"
               autoComplete="off"
               fullWidth
               size="small"
+              padding={"10px"}
             />
-            <span>ex: Vendedor</span>
+            {errors.job ? (
+              <S.ContainerErrorMessage>
+                {errors.job.message}
+              </S.ContainerErrorMessage>
+            ) : (
+              <span>ex: Vendedor</span>
+            )}
           </div>
           <div>
             <TextField
-              id="filled-basic"
+              {...register("sector", { required: true })}
               label="Setor"
-              value={form.sector}
-              name={"sector"}
-              onChange={onChange}
               variant="filled"
               autoComplete="off"
               fullWidth
               size="small"
             />
-            <span>ex: Assistência Técnica</span>
+            {errors.sector ? (
+              <S.ContainerErrorMessage>
+                {errors.sector.message}
+              </S.ContainerErrorMessage>
+            ) : (
+              <span>ex: Assistência Técnica</span>
+            )}
           </div>
           <div>
             <TextField
-              id="filled-basic"
+              {...register("address", { required: true })}
               label="Endereço"
-              value={form.address}
-              name={"address"}
-              onChange={onChange}
               variant="filled"
               autoComplete="off"
               fullWidth
@@ -179,46 +210,57 @@ export default function FomrEmployees() {
                 ),
               }}
             />
-            <span>ex: Avenida Paulista, 1.234 - São Paulo - SP - 02323</span>
+            {errors.address ? (
+              <S.ContainerErrorMessage>
+                {errors.address.message}
+              </S.ContainerErrorMessage>
+            ) : (
+              <span>ex: Avenida Paulista, 1.234 - São Paulo - SP - 02323</span>
+            )}
           </div>
         </S.ConatinerInputAddressAndJob>
         <div style={{ display: "flex", gap: "10px" }}>
           <S.ContainerIput>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("telephone", {
+                  required: true,
+                })}
                 label="Telefone"
-                value={form.telephone}
-                name={"telephone"}
-                onChange={onChange}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
                 size="small"
               />
-              <span>ex: (16)9 9999-9999</span>
+              {errors.telephone ? (
+                <S.ContainerErrorMessage>
+                  {errors.telephone.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: (16)9 9999-9999</span>
+              )}
             </div>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("nationality", { required: true })}
                 label="Nacionalidade"
-                value={form.nationality}
-                name={"nationality"}
-                onChange={onChange}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
                 size="small"
               />
-              <span>ex: Brasileira</span>
+              {errors.nationality ? (
+                <S.ContainerErrorMessage>
+                  {errors.nationality.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: Brasileira</span>
+              )}
             </div>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("startOfContract", { required: true })}
                 label="Início de contrato"
-                value={form.startOfContract}
-                name={"startOfContract"}
-                onChange={onChange}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
@@ -232,52 +274,64 @@ export default function FomrEmployees() {
                   ),
                 }}
               />
-              <span>ex: 01/01/2222</span>
+              {errors.startOfContract ? (
+                <S.ContainerErrorMessage>
+                  {errors.startOfContract.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: 01/01/2222</span>
+              )}
             </div>
           </S.ContainerIput>
           <S.ContainerIput>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("email", {
+                  required: true,
+                  pattern: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i,
+                })}
                 label="Email"
                 type={"email"}
-                value={form.email}
-                name={"email"}
-                onChange={onChange}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
                 size="small"
               />
-              <span>ex: julio.silva@email.com</span>
+              {errors.email ? (
+                <S.ContainerErrorMessage>
+                  {errors.email.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: julio.silva@email.com</span>
+              )}
             </div>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("wage", { required: true })}
                 label="Salario"
                 type={"number"}
-                value={form.wage}
-                name={"wage"}
-                onChange={onChange}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
                 size="small"
               />
-              <span>ex: 2.000,00</span>
+              {errors.wage ? (
+                <S.ContainerErrorMessage>
+                  {errors.wage.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: 200.00 </span>
+              )}
             </div>
             <div>
               <TextField
-                id="filled-basic"
+                {...register("birthdate", { required: true })}
                 label="Data de nascimento"
                 variant="filled"
                 autoComplete="off"
                 fullWidth
-                value={form.birthdate}
-                name={"birthdate"}
-                onChange={onChange}
                 size="small"
-                type={"date-local"}
+                type={"date"}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -286,7 +340,13 @@ export default function FomrEmployees() {
                   ),
                 }}
               />
-              <span>ex: 30/02/1999</span>
+              {errors.birthdate ? (
+                <S.ContainerErrorMessage>
+                  {errors.birthdate.message}
+                </S.ContainerErrorMessage>
+              ) : (
+                <span>ex: 30/02/1999</span>
+              )}
             </div>
           </S.ContainerIput>
         </div>

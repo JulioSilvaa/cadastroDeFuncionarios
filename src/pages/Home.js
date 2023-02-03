@@ -1,5 +1,5 @@
 import Header from "components/header/Header";
-import EmployeesList from "./EmployeesList";
+import EmployeesList from "./EmployeeList/EmployeesList";
 
 export default function Home() {
   return (
