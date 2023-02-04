@@ -85,25 +85,22 @@ export default function EmployeesList() {
         <DataGrid
           onRowClick={getid}
           rows={rows}
-          rowSpacingType={"margin"}
-          color={{ color: "blue" }}
+          rowSpacingType={"border"}
           columns={columns}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
         />
         {user ? (
-          <div style={{ margin: "20px auto" }}>
-            <Button
-              onClick={() => {
-                navigate("/adicionando");
-              }}
-              aut
-              variant="contained"
-              color="primary"
-            >
-              ADICIONAR FUNCIONARIO
-            </Button>
-          </div>
+          <Button
+            onClick={() => {
+              navigate("/adicionando");
+            }}
+            aut
+            variant="contained"
+            color="primary"
+          >
+            ADICIONAR FUNCIONARIO
+          </Button>
         ) : (
           ""
         )}

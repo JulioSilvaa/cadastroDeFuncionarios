@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useAuthentication } from "hooks/useAuthentication";
 import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import Container from "styles/Container";
 import { strongpassword } from "utils/validations";
 import * as yup from "yup";
@@ -27,6 +28,9 @@ const schema = yup
   .required();
 
 function FormRegister() {
+  const navigate = useNavigate();
+  const { createUser } = useAuthentication();
+
   const {
     register,
     handleSubmit: onSubmit,
@@ -36,14 +40,12 @@ function FormRegister() {
   });
 
   const handleSubmitForm = (data) => {
-    console.log(data);
-
     const user = data;
 
     return createUser(user);
-  };
 
-  const { createUser } = useAuthentication();
+    navigate("/");
+  };
 
   return (
     <Container>

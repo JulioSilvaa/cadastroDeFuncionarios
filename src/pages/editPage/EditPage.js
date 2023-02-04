@@ -2,11 +2,13 @@ import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Header from "components/header/Header";
+import { useAuthValue } from "context/AuthContext";
+import { useCreateHistory } from "hooks/useCreateHistory";
 import { useDeleteDocument } from "hooks/useDeleteDocEmployee";
 import { useFetchDocument } from "hooks/useEfecthEmployeeDocument";
 import { useUpdateDocument } from "hooks/useUpdateDocument";
+import useUploadImage from "hooks/useUploadImage";
 import { useEffect, useState } from "react";
-
 import {
   FaCalendarAlt,
   FaFileContract,
@@ -16,12 +18,9 @@ import {
   FaUserAlt,
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
+import createPDF from "reports/CreatePDF";
 import Container from "styles/Container";
 import * as S from "./style";
-
-import { useAuthValue } from "context/AuthContext";
-import useUploadImage from "hooks/useUploadImage";
-import reportPDF from "reports/Reports";
 
 export default function EditPage() {
   // Usando o Hook para pegar o parametro passaro por URL
@@ -32,6 +31,8 @@ export default function EditPage() {
   const { updateDocument } = useUpdateDocument("funcionarios");
   //Hook para excluir arquivo
   const { deleteDocument } = useDeleteDocument("funcionarios");
+  //Hook para criar um histórico da última atualização
+  const { createHistory } = useCreateHistory("historico");
 
   const { user } = useAuthValue();
   const navigate = useNavigate();
@@ -90,17 +91,6 @@ export default function EditPage() {
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
-    console.log(
-      {
-        dadosAntigos: document,
-        dadosNovos: {
-          ...data,
-          image: imgURL,
-        },
-      },
-      "histórico de atualização"
-    );
-
     if (
       !firstname ||
       !lastname ||
@@ -116,6 +106,14 @@ export default function EditPage() {
     ) {
       alert("Por favor preencha todos os campos");
     } else {
+      createHistory({
+        dadosAntigos: document,
+        dadosNovos: {
+          ...data,
+          image: imgURL,
+        },
+      });
+
       updateDocument(id, {
         ...data,
         image: imgURL,
@@ -196,14 +194,13 @@ export default function EditPage() {
                     <FaUserAlt size={80} color="gray" />
                   ) : (
                     <img
-                      style={{ width: "28%", borderRadius: "50%" }}
+                      style={{ width: "50%", borderRadius: "50%" }}
                       src={imgURL || image}
                       alt=""
                     />
                   )}
                   <input
                     type="file"
-                    id="uploadImage"
                     name={"image"}
                     onChange={(e) => {
                       handleChange(e);
@@ -400,14 +397,16 @@ export default function EditPage() {
             </Button>
           </S.ContainerButtons>
         </S.ContainerForm>
-        <Button
-          onClick={() => reportPDF(document)}
-          type="submit"
-          variant="contained"
-          color="secondary"
-        >
-          GERAR PDF
-        </Button>
+        <S.ContainerButtonPDF>
+          <Button
+            onClick={() => createPDF(document)}
+            type="submit"
+            variant="contained"
+            color="secondary"
+          >
+            GERAR PDF
+          </Button>
+        </S.ContainerButtonPDF>
       </Container>
     </>
   );
