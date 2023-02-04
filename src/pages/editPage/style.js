@@ -112,8 +112,13 @@ export const ConatinerInputAddressAndJob = styled.div`
 `;
 
 export const ContainerButtons = styled.div`
-  width: 100%;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-around;
+`;
+
+export const ContainerButtonPDF = styled.div`
+  position: sticky;
+  margin-bottom: 12.5rem;
 `;
