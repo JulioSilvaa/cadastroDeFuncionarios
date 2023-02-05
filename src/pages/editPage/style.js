@@ -39,7 +39,7 @@ export const ContainerForm = styled.form`
 
 export const InitialInputForm = styled.div`
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 `;
 
@@ -112,13 +112,8 @@ export const ConatinerInputAddressAndJob = styled.div`
 `;
 
 export const ContainerButtons = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
-`;
-
-export const ContainerButtonPDF = styled.div`
-  position: sticky;
-  margin-bottom: 12.5rem;
 `;

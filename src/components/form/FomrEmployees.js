@@ -39,7 +39,7 @@ const schema = yup
       .string()
       .matches(
         telephoneNumber,
-        "Digite conforme o exemplo ex: (16) 9 9999-9999"
+        "Exemplos válidos: +55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 / 5511988888888"
       )
       .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
@@ -237,7 +237,10 @@ export default function FomrEmployees() {
                   {errors.telephone.message}
                 </S.ContainerErrorMessage>
               ) : (
-                <span>ex: (16)9 9999-9999</span>
+                <span>
+                  ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 /
+                  5511988888888
+                </span>
               )}
             </div>
             <div>

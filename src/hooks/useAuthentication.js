@@ -1,5 +1,3 @@
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -45,33 +43,18 @@ export const useAuthentication = () => {
 
       setLoading(false);
 
-      <Stack sx={{ width: "100%" }} spacing={2}>
-        <Alert variant="filled" severity="success">
-          Cadastrado com sucesso!
-        </Alert>
-      </Stack>;
+      alert("Cadastrado com sucesso!");
+
       return user;
     } catch (error) {
       let systemErrorMessage;
 
       if (error.message.includes("Password ")) {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="info">
-            A senha precisa conter no minímo 6 caracteres
-          </Alert>
-        </Stack>;
+        alert(" A senha precisa conter no minímo 6 caracteres");
       } else if (error.message.includes("email-already")) {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="warning">
-            E-mail já cadastrado
-          </Alert>
-        </Stack>;
+        alert("  E-mail já cadastrado");
       } else {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="error">
-            "Ocorreu um erro tente mais tarde
-          </Alert>
-        </Stack>;
+        alert("Ocorreu um erro tente mais tarde");
       }
       setLoading(false);
       setError(systemErrorMessage);
@@ -81,11 +64,8 @@ export const useAuthentication = () => {
   //logout - sign Out
 
   const logout = () => {
-    <Stack sx={{ width: "100%" }} spacing={2}>
-      <Alert variant="filled" severity="info">
-        Saindo !
-      </Alert>
-    </Stack>;
+    alert("Saindo !");
+
     checkifIsCancelled();
 
     signOut(auth);
@@ -101,32 +81,17 @@ export const useAuthentication = () => {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       setLoading(false);
-      <Stack sx={{ width: "100%" }} spacing={2}>
-        <Alert variant="filled" severity="success">
-          Usuário encontrado!
-        </Alert>
-      </Stack>;
+
+      alert(" Usuário encontrado!");
     } catch (error) {
       let systemErrorMessage;
 
       if (error.message.includes("user-not-found")) {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="error">
-            Usuário não encontrado
-          </Alert>
-        </Stack>;
+        alert("Usuário não encontrado");
       } else if (error.message.includes("wrong-password")) {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="info">
-            A senha incorreta
-          </Alert>
-        </Stack>;
+        alert("A senha incorreta");
       } else {
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert variant="filled" severity="error">
-            Ocorreu um Erro, por favor tente novamente mais tarde
-          </Alert>
-        </Stack>;
+        alert("Ocorreu um Erro, por favor tente novamente mais tarde");
       }
       setError(systemErrorMessage);
       setLoading(false);
