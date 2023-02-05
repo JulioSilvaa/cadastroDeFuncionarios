@@ -31,7 +31,6 @@ function FormLogin() {
 
   const handleSubmitForm = (data) => {
     login(data);
-    navigate("/");
   };
 
   return (
@@ -66,6 +65,8 @@ function FormLogin() {
                   {...register("password", { required: true })}
                   label="Senha"
                   type={"password"}
+                  title="Minimo de 6 caracteres"
+                  inputProps={{ pattern: "^.{6,}$" }}
                   variant="filled"
                   autoComplete="off"
                   fullWidth
@@ -74,7 +75,7 @@ function FormLogin() {
                 {errors.password ? (
                   <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
                 ) : (
-                  <span>ex: sarwe2A!</span>
+                  <span>ex: sarwe2</span>
                 )}
               </div>
             </S.ContainerIput>

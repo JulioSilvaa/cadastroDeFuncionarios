@@ -15,11 +15,11 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Container from "styles/Container";
-import { telephoneNumber } from "utils/validations";
 import * as yup from "yup";
 import * as S from "./style";
 
 import UploadImage from "hooks/useUploadImage";
+import { telephoneNumber } from "utils/validations";
 
 const schema = yup
   .object()
@@ -37,10 +37,7 @@ const schema = yup
     address: yup.string().required("Campo obrigatório"),
     telephone: yup
       .string()
-      .matches(
-        telephoneNumber,
-        "Exemplos válidos: +55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 / 5511988888888"
-      )
+      .matches(telephoneNumber, "não corresponde com padrão")
       .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
     nationality: yup.string().required("Campo obrigatório"),

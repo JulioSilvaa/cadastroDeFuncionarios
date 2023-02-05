@@ -1,27 +1,82 @@
+import moment from "moment/moment";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function createPDF(employee) {
-  console.log(employee);
+  moment.locale("br");
+
   const reportTitle = [
     {
       text: employee.firstname + " " + employee.lastname,
-      fontSize: 20,
+      image: employee.image[0],
+      fontSize: 25,
       bold: true,
-      margin: [20, 20, 0, 4], //left, top, right, bottom
+      italics: true,
+      margin: [20, 20, 0, 30], //left, top, right, bottom
     },
   ];
 
-  const reportBody = [
-    {
-      text: "Descrição",
-      fontSize: 20,
-      bold: true,
-      margin: [20, 20, 0, 45], //left, top, right, bottom
-    },
-    { text: employee.description },
-  ];
+  const reportBody = {
+    content: [
+      {
+        text: "Descrição:",
+        bold: true,
+        fontSize: 16,
+        margin: [0, 20, 0, 8],
+        italics: true,
+      },
+      `${employee.description} `,
+      {
+        text: "Dados pessoais",
+        bold: true,
+        fontSize: 16,
+        margin: [0, 20, 0, 8],
+        italics: true,
+      },
+      `Telefone: ${employee.telephone} `,
+      `Endereço: ${employee.address}`,
+      `Email: ${employee.email} `,
+      `Nacionalidade: ${employee.nationality} `,
+      `Data de nascimento: ${moment(employee.birthdate).format("DD-MM-YYYY")} `,
+      {
+        text: "Função e setor onde trabalha:",
+        bold: true,
+        fontSize: 16,
+        margin: [0, 20, 0, 8],
+        italics: true,
+      },
+      `Tabralha como : ${employee.job} no setor de ${employee.sector}`,
+      `Salário atual: R$ ${new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(employee.wage)}`,
+      {
+        text: "Status do contrato:",
+        bold: true,
+        fontSize: 16,
+        margin: [0, 20, 0, 8],
+        italics: true,
+      },
+      `Início do contrato: ${moment(employee.startOfContract).format(
+        "DD-MM-YYYY"
+      )} `,
+      `Fim do contrato: ${
+        employee.endOfContract
+          ? moment(employee.endOfContract).format("DD-MM-YYYY")
+          : "ATIVO"
+      } `,
+
+      {
+        text: "Contrato foi adicionado por:",
+        bold: true,
+        fontSize: 16,
+        margin: [0, 20, 0, 8],
+        italics: true,
+      },
+      `Usuário: ${employee.createdBy} `,
+    ],
+  };
 
   function reportFooter(currentPage, pageCount) {
     return [
@@ -38,7 +93,7 @@ function createPDF(employee) {
     pageSize: "A4",
     pageMargins: [20, 50, 15, 40],
     header: [reportTitle],
-    content: [reportBody],
+    content: reportBody.content,
     footer: reportFooter,
   };
 
