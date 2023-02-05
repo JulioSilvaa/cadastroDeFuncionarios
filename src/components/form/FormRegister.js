@@ -4,9 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useAuthentication } from "hooks/useAuthentication";
 import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import Container from "styles/Container";
-import { strongpassword } from "utils/validations";
 import * as yup from "yup";
 import * as S from "./style";
 
@@ -14,22 +12,13 @@ const schema = yup
   .object()
   .shape({
     displayName: yup.string().trim().required("Digite um para o usuário"),
-    password: yup
-      .string()
-      .trim()
-      .required("Campo obrigatório")
-      .matches(
-        strongpassword,
-        "A senha deve conter pelo menos 8 caracteres, uma maiúscula, um número e um caractere especial"
-      ),
-
+    password: yup.string().trim().required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
   })
   .required();
 
 function FormRegister() {
-  const navigate = useNavigate();
-  const { createUser } = useAuthentication();
+  const { createUser, error, loading } = useAuthentication();
 
   const {
     register,
@@ -43,8 +32,6 @@ function FormRegister() {
     const user = data;
 
     return createUser(user);
-
-    navigate("/");
   };
 
   return (
@@ -66,9 +53,7 @@ function FormRegister() {
                   size="small"
                 />
                 {errors.displayName ? (
-                  <S.ContainerErrorMessage>
-                    {errors.displayName.message}
-                  </S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
                 ) : (
                   <span>ex: Usuário</span>
                 )}
@@ -84,9 +69,7 @@ function FormRegister() {
                   size="small"
                 />
                 {errors.email ? (
-                  <S.ContainerErrorMessage>
-                    {errors.email.message}
-                  </S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
                 ) : (
                   <span>ex: Julio@email.com</span>
                 )}
@@ -102,9 +85,7 @@ function FormRegister() {
                   size="small"
                 />
                 {errors.password ? (
-                  <S.ContainerErrorMessage>
-                    {errors.password.message}
-                  </S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
                 ) : (
                   <span>ex: sarwe2A!</span>
                 )}
@@ -113,9 +94,16 @@ function FormRegister() {
           </S.UserIdentification>
         </S.InitialInputForm>
         <div style={{ marginTop: "50px" }}>
-          <Button type="submit" variant="contained">
-            CADASTRAR
-          </Button>
+          {!loading && (
+            <Button type="submit" variant="contained">
+              CADASTRAR
+            </Button>
+          )}
+          {loading && (
+            <Button type="submit" variant="contained">
+              Aguard..
+            </Button>
+          )}
         </div>
       </S.ContainerForm>
     </Container>

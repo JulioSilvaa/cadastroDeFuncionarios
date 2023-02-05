@@ -1,4 +1,14 @@
-export const telephoneNumber = /(\(?\d{2}\)?\s)?(\d{4,5}\\d{4})/;
+export const telephoneNumber = /"^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{4,}$"/;
 
-export const strongpassword =
-  /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/;
+export const handlePhone = (event) => {
+  let input = event.target;
+  input.value = phoneMask(input.value);
+};
+
+const phoneMask = (value) => {
+  if (!value) return "";
+  value = value.replace(/\D/g, "");
+  value = value.replace(/(\d{2})(\d)/, "($1) $2");
+  value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+  return value;
+};

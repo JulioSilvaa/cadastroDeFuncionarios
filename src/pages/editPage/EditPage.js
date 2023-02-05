@@ -52,6 +52,7 @@ export default function EditPage() {
   const [wage, setWage] = useState();
   const [startOfContract, setStartOfContract] = useState();
   const [image, setImage] = useState();
+  const [endOfContract, setEndOfContract] = useState();
 
   useEffect(() => {
     setFirstName(document.firstname);
@@ -83,6 +84,7 @@ export default function EditPage() {
     sector,
     wage,
     startOfContract,
+    endOfContract: endOfContract ? endOfContract : "",
     image,
     uid: user.uid,
     createdBy: user.displayName,
@@ -124,9 +126,7 @@ export default function EditPage() {
 
   return (
     <>
-      <Header
-        title={`Editando dados de ${document.firstname} ${document.lastname} `}
-      />
+      <Header title={`Editando dados de contado `} />
       <Container>
         <S.ContainerForm onSubmit={handleSubmitForm}>
           <S.TextArea>
@@ -147,7 +147,7 @@ export default function EditPage() {
           </S.TextArea>
           <S.InitialInputForm>
             <h2>
-              Alterar as informação de contato
+              {`Alterarando as informação de ${document.firstname} ${document.lastname} `}
               <FaPencilAlt color="gray" size={20} />
             </h2>
 
@@ -280,7 +280,9 @@ export default function EditPage() {
                   fullWidth
                   size="small"
                 />
-                <span>ex: (16)9 9999-9999</span>
+                <span>
+                  ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 /
+                </span>
               </div>
               <div>
                 <TextField
@@ -395,18 +397,26 @@ export default function EditPage() {
             >
               DELETAR
             </Button>
+            <div>
+              <Button
+                onClick={() => createPDF(document)}
+                type="submit"
+                variant="contained"
+                color="secondary"
+              >
+                GERAR PDF
+              </Button>
+              <Button
+                onClick={() => setEndOfContract(Date.now())}
+                type="submit"
+                variant="contained"
+                color="warning"
+              >
+                ENCERRAR CONTRATO
+              </Button>
+            </div>
           </S.ContainerButtons>
         </S.ContainerForm>
-        <S.ContainerButtonPDF>
-          <Button
-            onClick={() => createPDF(document)}
-            type="submit"
-            variant="contained"
-            color="secondary"
-          >
-            GERAR PDF
-          </Button>
-        </S.ContainerButtonPDF>
       </Container>
     </>
   );

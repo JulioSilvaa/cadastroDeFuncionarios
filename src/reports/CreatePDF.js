@@ -9,16 +9,18 @@ function createPDF(employee) {
       text: employee.firstname + " " + employee.lastname,
       fontSize: 20,
       bold: true,
-      margin: [20, 20, 0, 45], //left, top, right, bottom
+      margin: [20, 20, 0, 4], //left, top, right, bottom
     },
   ];
+
   const reportBody = [
     {
-      text: employee.decription,
-      fontSize: 15,
-
+      text: "Descrição",
+      fontSize: 20,
+      bold: true,
       margin: [20, 20, 0, 45], //left, top, right, bottom
     },
+    { text: employee.description },
   ];
 
   function reportFooter(currentPage, pageCount) {
