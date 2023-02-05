@@ -115,5 +115,7 @@ export const ContainerButtons = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  button {
+    margin: 10px 10px;
+  }
 `;

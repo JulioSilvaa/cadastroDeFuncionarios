@@ -69,7 +69,9 @@ function FormRegister() {
                   size="small"
                 />
                 {errors.email ? (
-                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>
+                    {errors.email.message}
+                  </S.ContainerErrorMessage>
                 ) : (
                   <span>ex: Julio@email.com</span>
                 )}
@@ -83,11 +85,13 @@ function FormRegister() {
                   autoComplete="off"
                   fullWidth
                   size="small"
+                  title="Minimo de 6 caracteres"
+                  inputProps={{ pattern: "^.{6,}$" }}
                 />
                 {errors.password ? (
                   <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
                 ) : (
-                  <span>ex: sarwe2A!</span>
+                  <span>ex: sarwe2</span>
                 )}
               </div>
             </S.ContainerIput>

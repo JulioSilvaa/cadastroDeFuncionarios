@@ -52,7 +52,7 @@ export default function EditPage() {
   const [wage, setWage] = useState();
   const [startOfContract, setStartOfContract] = useState();
   const [image, setImage] = useState();
-  const [endOfContract, setEndOfContract] = useState();
+  const [endOfContract, setEndOfContract] = useState("");
 
   useEffect(() => {
     setFirstName(document.firstname);
@@ -84,12 +84,12 @@ export default function EditPage() {
     sector,
     wage,
     startOfContract,
-    endOfContract: endOfContract ? endOfContract : "",
+    endOfContract,
     image,
     uid: user.uid,
     createdBy: user.displayName,
   };
-
+  console.log(data);
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
@@ -109,7 +109,7 @@ export default function EditPage() {
       alert("Por favor preencha todos os campos");
     } else {
       createHistory({
-        dadosAntigos: document,
+        dadosAntigos: [document],
         dadosNovos: {
           ...data,
           image: imgURL,
@@ -387,6 +387,7 @@ export default function EditPage() {
             <Button type="submit" variant="contained">
               EDITAR DADOS
             </Button>
+
             <Button
               onClick={() => {
                 deleteDocument(id);
@@ -397,26 +398,26 @@ export default function EditPage() {
             >
               DELETAR
             </Button>
-            <div>
-              <Button
-                onClick={() => createPDF(document)}
-                type="submit"
-                variant="contained"
-                color="secondary"
-              >
-                GERAR PDF
-              </Button>
-              <Button
-                onClick={() => setEndOfContract(Date.now())}
-                type="submit"
-                variant="contained"
-                color="warning"
-              >
-                ENCERRAR CONTRATO
-              </Button>
-            </div>
+            <Button
+              onClick={() => createPDF(document)}
+              variant="contained"
+              color="secondary"
+            >
+              GERAR PDF
+            </Button>
+            <Button
+              onClick={() => {
+                setEndOfContract(Date.now());
+                alert("Contrato encerrado com sucesso!  ");
+              }}
+              variant="contained"
+              color="warning"
+            >
+              ENCERRAR CONTRATO
+            </Button>
           </S.ContainerButtons>
         </S.ContainerForm>
+        <S.ContainerButtons></S.ContainerButtons>
       </Container>
     </>
   );

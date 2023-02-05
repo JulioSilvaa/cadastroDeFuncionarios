@@ -66,9 +66,7 @@ export default function EmployeesList() {
       headerName: "fim de contrato",
       width: 130,
       renderCell: (params) =>
-        moment(
-          params.row.endOfContract ? params.row.endOfContract : "ATIVO"
-        ).format("DD-MM-YYYY"),
+        moment(params.row.endOfContract).format("DD-MM-YYYY"),
     },
     {
       field: "createdBy",
