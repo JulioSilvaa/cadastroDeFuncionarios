@@ -36,6 +36,7 @@ function FormLogin() {
 
   const handleSubmitForm = (data) => {
     login(data);
+    navigate("/");
   };
 
   return (
