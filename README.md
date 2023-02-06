@@ -1,6 +1,6 @@
-# Cadastro de clientes
+# Cadastro de Funcionários
 
-O projeto **Cadastro de cliente** foi desenvolvido a partir da ideia de ter um controle sobre o cadastro de funcionários.
+O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de ter um controle sobre o cadastro de funcionários.
 
 # Imagens do Projeto
 ![Home](https://user-images.githubusercontent.com/69260762/217066984-b4424340-3880-4c99-9ba4-61b914779fe3.png)
