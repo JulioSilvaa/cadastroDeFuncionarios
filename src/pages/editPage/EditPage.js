@@ -18,7 +18,6 @@ import {
   FaUserAlt,
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
-import createPDF from "reports/CreatePDF";
 import Container from "styles/Container";
 import * as S from "./style";
 
@@ -108,7 +107,7 @@ export default function EditPage() {
       alert("Por favor preencha todos os campos");
     } else {
       createHistory({
-        dadosAntigos: [document],
+        dadosAntigos: document,
         dadosNovos: {
           ...data,
           image: imgURL,
@@ -117,7 +116,7 @@ export default function EditPage() {
 
       updateDocument(id, {
         ...data,
-        image: imgURL,
+        image: imgURL ? imgURL : image,
       });
       navigate("/");
     }
@@ -193,7 +192,7 @@ export default function EditPage() {
                     <FaUserAlt size={80} color="gray" />
                   ) : (
                     <img
-                      style={{ width: "50%", borderRadius: "50%" }}
+                      style={{ width: "40%", borderRadius: "50%" }}
                       src={imgURL || image}
                       alt=""
                     />
@@ -279,9 +278,7 @@ export default function EditPage() {
                   fullWidth
                   size="small"
                 />
-                <span>
-                  ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 /
-                </span>
+                <span>ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888</span>
               </div>
               <div>
                 <TextField
@@ -326,7 +323,6 @@ export default function EditPage() {
             <S.ContainerIput>
               <div>
                 <TextField
-                  id="filled-basic"
                   type={"email"}
                   value={email}
                   name={"email"}
@@ -342,8 +338,6 @@ export default function EditPage() {
               </div>
               <div>
                 <TextField
-                  id="filled-basic"
-                  type={"number"}
                   value={wage}
                   name={"wage"}
                   onChange={(e) => {
@@ -358,7 +352,6 @@ export default function EditPage() {
               </div>
               <div>
                 <TextField
-                  id="filled-basic"
                   label="Data de nascimento"
                   variant="outlined"
                   autoComplete="off"
@@ -386,24 +379,6 @@ export default function EditPage() {
             <Button type="submit" variant="contained">
               EDITAR DADOS
             </Button>
-
-            <Button
-              onClick={() => {
-                deleteDocument(id);
-                navigate("/");
-              }}
-              variant="contained"
-              color="error"
-            >
-              DELETAR
-            </Button>
-            <Button
-              onClick={() => createPDF(document)}
-              variant="contained"
-              color="secondary"
-            >
-              GERAR PDF
-            </Button>
             <Button
               onClick={() => {
                 setEndOfContract(Date.now());
@@ -414,6 +389,17 @@ export default function EditPage() {
               color="warning"
             >
               ENCERRAR CONTRATO
+            </Button>
+
+            <Button
+              onClick={() => {
+                deleteDocument(id);
+                navigate("/");
+              }}
+              variant="contained"
+              color="error"
+            >
+              DELETAR
             </Button>
           </S.ContainerButtons>
         </S.ContainerForm>

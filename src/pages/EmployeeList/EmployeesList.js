@@ -4,7 +4,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useAuthValue } from "context/AuthContext";
 import { useFetchEmployeeshDoc } from "hooks/useFetchEmployeesDocuments";
 import moment from "moment/moment";
+import { FaFilePdf } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import createPDF from "reports/CreatePDF";
 import * as S from "./style";
 
 export default function EmployeesList() {
@@ -30,18 +32,18 @@ export default function EmployeesList() {
       sortable: false,
       filterable: false,
     },
-    { field: "firstname", headerName: "Nome", width: 150 },
-    { field: "lastname", headerName: "Sobrenome", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "nationality", headerName: "Nacionalidade", width: 200 },
+    { field: "firstname", headerName: "Nome", width: 100 },
+    { field: "lastname", headerName: "Sobrenome", width: 100 },
+    { field: "email", headerName: "Email", width: 130 },
+    { field: "nationality", headerName: "Nacionalidade", width: 120 },
     { field: "sector", headerName: "Setor", width: 150 },
     { field: "job", headerName: "Cargo", width: 150 },
-    { field: "telephone", headerName: "Telefone", width: 150 },
+    { field: "telephone", headerName: "Telefone", width: 120 },
     { field: "description", headerName: "Descrição", width: 300 },
     {
       field: "wage",
       headerName: "Salário",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         return Number(params.row.wage).toLocaleString("pt-br", {
           style: "currency",
@@ -52,7 +54,7 @@ export default function EmployeesList() {
     {
       field: "birthdate",
       headerName: "Nascido em :",
-      width: 130,
+      width: 100,
       renderCell: (params) => moment(params.row.birthdate).format("DD-MM-YYYY"),
     },
     {
@@ -64,7 +66,7 @@ export default function EmployeesList() {
     },
     {
       field: "endOfContract",
-      headerName: "fim de contrato",
+      headerName: "Contrato",
       width: 130,
       renderCell: (params) => {
         return params.row.endOfContract
@@ -83,6 +85,17 @@ export default function EmployeesList() {
       width: 150,
       renderCell: (params) =>
         moment(params.row.createdAt.seconds * 1000).format("DD-MM-YYYY"),
+    },
+    {
+      headerName: "PDF",
+      width: 80,
+      renderCell: (params) => (
+        <Button color="warning" onClick={() => createPDF(params.row)}>
+          PDF <FaFilePdf />
+        </Button>
+      ),
+      sortable: false,
+      filterable: false,
     },
   ];
 

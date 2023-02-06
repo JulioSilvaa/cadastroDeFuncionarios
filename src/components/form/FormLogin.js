@@ -24,7 +24,7 @@ const schema = yup
 
 function FormLogin() {
   const navigate = useNavigate();
-  const { login, error } = useAuthentication();
+  const { login } = useAuthentication();
 
   const {
     register,
@@ -59,7 +59,9 @@ function FormLogin() {
                   size="small"
                 />
                 {errors.email ? (
-                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>
+                    {errors.email.message}
+                  </S.ContainerErrorMessage>
                 ) : (
                   <span>ex: Julio@email.com</span>
                 )}
