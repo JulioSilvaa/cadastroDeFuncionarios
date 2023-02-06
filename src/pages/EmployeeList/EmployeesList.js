@@ -42,11 +42,12 @@ export default function EmployeesList() {
       field: "wage",
       headerName: "Salário",
       width: 150,
-      renderCell: (params) =>
-        new Intl.NumberFormat("pt-BR", {
+      renderCell: (params) => {
+        return Number(params.row.wage).toLocaleString("pt-br", {
           style: "currency",
           currency: "BRL",
-        }).format(params.row.wage),
+        });
+      },
     },
     {
       field: "birthdate",
@@ -65,8 +66,11 @@ export default function EmployeesList() {
       field: "endOfContract",
       headerName: "fim de contrato",
       width: 130,
-      renderCell: (params) =>
-        moment(params.row.endOfContract).format("DD-MM-YYYY"),
+      renderCell: (params) => {
+        return params.row.endOfContract
+          ? moment(params.row.endOfContract).format("DD-MM-YYYY")
+          : " ATIVO";
+      },
     },
     {
       field: "createdBy",

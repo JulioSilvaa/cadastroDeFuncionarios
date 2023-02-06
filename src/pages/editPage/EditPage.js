@@ -89,7 +89,6 @@ export default function EditPage() {
     uid: user.uid,
     createdBy: user.displayName,
   };
-  console.log(data);
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
@@ -355,7 +354,7 @@ export default function EditPage() {
                   fullWidth
                   size="small"
                 />
-                <span>ex: 2.000,00</span>
+                <span>ex: 200.90 use ponto para centavos</span>
               </div>
               <div>
                 <TextField
@@ -408,8 +407,9 @@ export default function EditPage() {
             <Button
               onClick={() => {
                 setEndOfContract(Date.now());
-                alert("Contrato encerrado com sucesso!  ");
+                alert("Contrato encerrado com sucesso!");
               }}
+              type="submit"
               variant="contained"
               color="warning"
             >

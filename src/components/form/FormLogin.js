@@ -6,13 +6,18 @@ import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Container from "styles/Container";
+import { strongpassword } from "utils/validations";
 import * as yup from "yup";
 import * as S from "./style";
 
 const schema = yup
   .object()
   .shape({
-    password: yup.string().trim().required("Campo obrigatório"),
+    password: yup
+      .string()
+      .matches(strongpassword, "No minimo 6 caracteres")
+      .trim()
+      .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
   })
   .required();
@@ -65,15 +70,15 @@ function FormLogin() {
                   {...register("password", { required: true })}
                   label="Senha"
                   type={"password"}
-                  title="Minimo de 6 caracteres"
-                  inputProps={{ pattern: "^.{6,}$" }}
                   variant="filled"
                   autoComplete="off"
                   fullWidth
                   size="small"
                 />
                 {errors.password ? (
-                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>
+                    {errors.password.message}
+                  </S.ContainerErrorMessage>
                 ) : (
                   <span>ex: sarwe2</span>
                 )}

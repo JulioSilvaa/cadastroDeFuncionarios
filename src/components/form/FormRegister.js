@@ -5,6 +5,7 @@ import { useAuthentication } from "hooks/useAuthentication";
 import { useForm } from "react-hook-form";
 import { FaLockOpen } from "react-icons/fa";
 import Container from "styles/Container";
+import { strongpassword } from "utils/validations";
 import * as yup from "yup";
 import * as S from "./style";
 
@@ -12,7 +13,11 @@ const schema = yup
   .object()
   .shape({
     displayName: yup.string().trim().required("Digite um para o usuário"),
-    password: yup.string().trim().required("Campo obrigatório"),
+    password: yup
+      .string()
+      .matches(strongpassword, "No minimo 6 caracteres")
+      .trim()
+      .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
   })
   .required();
@@ -85,11 +90,11 @@ function FormRegister() {
                   autoComplete="off"
                   fullWidth
                   size="small"
-                  title="Minimo de 6 caracteres"
-                  inputProps={{ pattern: "^.{6,}$" }}
                 />
                 {errors.password ? (
-                  <S.ContainerErrorMessage>{error}</S.ContainerErrorMessage>
+                  <S.ContainerErrorMessage>
+                    {errors.password.message}
+                  </S.ContainerErrorMessage>
                 ) : (
                   <span>ex: sarwe2</span>
                 )}
