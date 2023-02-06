@@ -139,7 +139,7 @@ export default function FomrEmployees() {
                 {!imgURL && <FaUserAlt size={90} color="gray" />}
                 {imgURL && (
                   <img
-                    style={{ width: "40%", borderRadius: "50%" }}
+                    style={{ width: "50%", borderRadius: "50%" }}
                     src={imgURL}
                     alt=""
                   />
@@ -234,10 +234,7 @@ export default function FomrEmployees() {
                   {errors.telephone.message}
                 </S.ContainerErrorMessage>
               ) : (
-                <span>
-                  ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888 /
-                  5511988888888
-                </span>
+                <span>ex:+55 (11) 98888-8888 / 9999-9999 / 21 98888-8888</span>
               )}
             </div>
             <div>
@@ -288,7 +285,6 @@ export default function FomrEmployees() {
               <TextField
                 {...register("email", {
                   required: true,
-                  pattern: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i,
                 })}
                 label="Email"
                 type={"email"}
@@ -309,7 +305,6 @@ export default function FomrEmployees() {
               <TextField
                 {...register("wage", { required: true })}
                 label="Salario"
-                type={"number"}
                 variant="filled"
                 autoComplete="off"
                 fullWidth
