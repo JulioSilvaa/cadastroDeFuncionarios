@@ -22,7 +22,7 @@ O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de te
 
 ## 🌎 Como acessar o projeto
 
-- [Link para o projeto na web](cadastrodeclientev2.surge.sh)
+- [Link para o projeto na web](https://cadastrodeclientev2.surge.sh/)
 
 ## 🚀 Tecnologias utilizadas
 
