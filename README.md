@@ -3,7 +3,8 @@
 O projeto **Cadastro de cliente** foi desenvolvido a partir da ideia de ter um controle sobre o cadastro de funcionários.
 
 # Imagens do Projeto
-
+![Home](https://user-images.githubusercontent.com/69260762/217066984-b4424340-3880-4c99-9ba4-61b914779fe3.png)
+![edição](https://user-images.githubusercontent.com/69260762/217067017-cacd45dc-3bc6-4556-8c50-b36867e7c604.png)
 
 
 # Índice
