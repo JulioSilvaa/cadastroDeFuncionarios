@@ -320,7 +320,7 @@ export default function FomrEmployees() {
                   {errors.wage.message}
                 </S.ContainerErrorMessage>
               ) : (
-                <span>ex: 200.00 </span>
+                <span>ex: 200.90 use ponto para centavos</span>
               )}
             </div>
             <div>

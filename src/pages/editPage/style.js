@@ -115,7 +115,9 @@ export const ContainerButtons = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  margin: 0 auto;
   button {
     margin: 10px 10px;
+    font-size: 0.9rem;
   }
 `;

@@ -47,10 +47,10 @@ function createPDF(employee) {
         italics: true,
       },
       `Tabralha como : ${employee.job} no setor de ${employee.sector}`,
-      `Salário atual: R$ ${new Intl.NumberFormat("pt-BR", {
+      `Salário atual: R$ ${Number(employee.wage).toLocaleString("pt-br", {
         style: "currency",
         currency: "BRL",
-      }).format(employee.wage)}`,
+      })}`,
       {
         text: "Status do contrato:",
         bold: true,
