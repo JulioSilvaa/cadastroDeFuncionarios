@@ -343,6 +343,10 @@ export default function EditPage() {
                   onChange={(e) => {
                     setWage(e.target.value);
                   }}
+                  inputProps={{
+                    pattern: "[0-9]+(.[0-9]{2})?",
+                    maxLength: "7",
+                  }}
                   variant="outlined"
                   autoComplete="off"
                   fullWidth

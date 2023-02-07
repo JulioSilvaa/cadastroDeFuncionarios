@@ -309,6 +309,10 @@ export default function FomrEmployees() {
                 autoComplete="off"
                 fullWidth
                 size="small"
+                inputProps={{
+                  pattern: "[0-9]+(.[0-9]{2})?",
+                  maxLength: "7",
+                }}
               />
               {errors.wage ? (
                 <S.ContainerErrorMessage>
