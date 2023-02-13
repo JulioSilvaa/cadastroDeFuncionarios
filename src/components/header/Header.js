@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import logo from "assets/logo.png";
+import logo from "assets/images.png";
 import { useAuthentication } from "hooks/useAuthentication";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -47,7 +47,13 @@ const Header = ({ title }) => {
               LOGOUT
             </Button>
           )}
-          {user ? <p>Bem vindo!! {user.displayName}</p> : ""}
+          {user ? (
+            <p>
+              Bem vindo!! <b>{user.displayName}</b>
+            </p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </header>
