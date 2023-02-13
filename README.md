@@ -3,8 +3,10 @@
 O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de ter um controle sobre o cadastro de funcionários.
 
 # Imagens do Projeto
-![Home](https://user-images.githubusercontent.com/69260762/217066984-b4424340-3880-4c99-9ba4-61b914779fe3.png)
-![edição](https://user-images.githubusercontent.com/69260762/217067017-cacd45dc-3bc6-4556-8c50-b36867e7c604.png)
+![Captura de tela 2023-02-13 162029](https://user-images.githubusercontent.com/69260762/218553434-274c0cbf-8c50-4b46-b670-a1640ceb7907.png)
+![Captura de tela 2023-02-13 162054](https://user-images.githubusercontent.com/69260762/218553440-73396220-1be0-490d-8fea-37f9be71cde0.png)
+![Captura de tela 2023-02-13 162145](https://user-images.githubusercontent.com/69260762/218553446-7f70a209-4d85-469c-b9aa-9ae531b8cd11.png)
+
 
 
 # Índice
@@ -22,7 +24,7 @@ O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de te
 
 ## 🌎 Como acessar o projeto
 
-- [Link para o projeto na web](https://controledefuncionariosjulio.surge.sh/)
+- [Link para o projeto na web](https://funcionarioscontrolev2.surge.sh/)
 
 ## 🚀 Tecnologias utilizadas
 
