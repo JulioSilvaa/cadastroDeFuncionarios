@@ -1,4 +1,3 @@
-import ProtectedRoutes from "components/protectedRoute/ProtectedRotes";
 import { AuthProvider } from "context/AuthContext";
 
 //Firebase
@@ -14,6 +13,8 @@ import Register from "pages/register/Register";
 //Hooks
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { Navigate, Outlet } from "react-router-dom";
 
 function Router() {
   const [user, setUser] = useState(undefined);
@@ -31,14 +32,22 @@ function Router() {
     return <p>Carregando...</p>;
   }
 
+  function ProtectedRoutes() {
+    if (!user) {
+      <h1>Usuário não está logado</h1>;
+    }
+
+    return user ? <Outlet /> : <Navigate to="/login" />;
+  }
+
   return (
     <AuthProvider value={{ user }}>
       <BrowserRouter>
         <Routes>
           <Route exact path="/login" element={<Login />} />
+          <Route path="/registro" element={<Register />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<Home />} />
-            <Route path="/registro" element={<Register />} />
             <Route path="/adicionando" element={<CreateDocEmployees />} />
             <Route path="/editando/:id" element={<EditPage />} />
           </Route>

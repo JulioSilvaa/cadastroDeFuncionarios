@@ -28,6 +28,7 @@ export const TextArea = styled.div`
 
 export const ContainerForm = styled.form`
   max-width: 50%;
+  margin: 20px auto;
 
   button {
     padding: 8px;
@@ -40,6 +41,7 @@ export const InitialInputForm = styled.div`
   h2 {
     font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
   }
 `;
 
@@ -53,10 +55,11 @@ export const UserIdentification = styled.div`
 `;
 
 export const ContainerIput = styled.div`
+  margin: 0 auto;
+  width: 90%;
   display: flex;
   gap: 20px;
   flex-direction: column;
-  width: 50%;
 
   span {
     font-size: 0.8rem;
@@ -113,10 +116,20 @@ export const ConatinerInputAddressAndJob = styled.div`
 `;
 
 export const ContainerButtons = styled.div`
-  width: 300px;
-  width: 30%;
   display: flex;
-  justify-content: space-around;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+export const Cadastrar = styled.div`
+  width: 100%;
+  text-align: center;
 `;
 
 export const ContainerErrorMessage = styled.p`

@@ -15,7 +15,7 @@ const schema = yup
   .shape({
     password: yup
       .string()
-      .matches(strongpassword, "No minimo 6 caracteres")
+      .matches(strongpassword, "No mínimo 6 caracteres")
       .trim()
       .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),

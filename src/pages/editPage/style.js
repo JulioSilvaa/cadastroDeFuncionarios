@@ -120,4 +120,15 @@ export const ContainerButtons = styled.div`
     margin: 10px 10px;
     font-size: 0.9rem;
   }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    button {
+      margin: 10px 10px;
+      font-size: 0.9rem;
+    }
+  }
 `;
