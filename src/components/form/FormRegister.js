@@ -16,7 +16,7 @@ const schema = yup
     displayName: yup.string().trim().required("Digite um para o usuário"),
     password: yup
       .string()
-      .matches(strongpassword, "No minimo 6 caracteres")
+      .matches(strongpassword, "No mínimo 6 caracteres")
       .trim()
       .required("Campo obrigatório"),
     email: yup.string().email("E-mail inválido.").required("Campo obrigatório"),
@@ -54,7 +54,7 @@ function FormRegister() {
               <div>
                 <TextField
                   {...register("displayName", { required: true })}
-                  label="Usário"
+                  label="Usuário"
                   variant="filled"
                   autoComplete="off"
                   fullWidth
@@ -104,19 +104,19 @@ function FormRegister() {
               </div>
             </S.ContainerIput>
           </S.UserIdentification>
+          <S.Cadastrar style={{ marginTop: "50px" }}>
+            {!loading && (
+              <Button type="submit" variant="contained">
+                CADASTRAR
+              </Button>
+            )}
+            {loading && (
+              <Button type="submit" variant="contained">
+                Aguarde....
+              </Button>
+            )}
+          </S.Cadastrar>
         </S.InitialInputForm>
-        <div style={{ marginTop: "50px" }}>
-          {!loading && (
-            <Button type="submit" variant="contained">
-              CADASTRAR
-            </Button>
-          )}
-          {loading && (
-            <Button type="submit" variant="contained">
-              Aguard..
-            </Button>
-          )}
-        </div>
       </S.ContainerForm>
     </Container>
   );
