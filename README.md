@@ -20,7 +20,7 @@ O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de te
 
 ## 🖋 Descrição do projeto
 
-## O desafio Proposto era ter uma aplicação onde fosse possivél ter as informações dos funcionários em uma lista, e essa lista pudesse der atualizada e até mesmo excluída conforme a necessidade do usuário. Através da tabela pode se ter acesso a todas as informações atualizadas do funcionário com o por exemplo: setor, função, salário e até mesmo verificar se o contrado está ativo, no final pode-se gerar um PDF com todas essas informações.
+## O desafio Proposto era ter uma aplicação onde fosse possível ter as informações dos funcionários em uma lista, e essa lista pudesse ser atualizada e até mesmo excluída conforme a necessidade do usuário. Através da tabela pode-se ter acesso a todas as informações atualizadas do funcionário como por exemplo: setor, função, salário e até mesmo verificar se o contrado está ativo, no final pode-se gerar um PDF com todas essas informações.
 
 ## 🌎 Como acessar o projeto
 
