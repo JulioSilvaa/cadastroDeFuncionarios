@@ -24,7 +24,7 @@ O projeto **Cadastro de funcionários** foi desenvolvido a partir da ideia de te
 
 ## 🌎 Como acessar o projeto
 
-- [Link para o projeto na web](https://funcionarioscontrolev2.surge.sh/)
+- [Link para o projeto na web](https://controlefuncjulio.surge.sh/login)
 
 ## 🚀 Tecnologias utilizadas
 
