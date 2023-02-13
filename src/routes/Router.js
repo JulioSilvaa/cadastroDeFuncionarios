@@ -1,3 +1,4 @@
+import ProtectedRoutes from "components/protectedRoute/ProtectedRotes";
 import { AuthProvider } from "context/AuthContext";
 
 //Firebase
@@ -12,7 +13,7 @@ import Login from "pages/Login";
 import Register from "pages/register/Register";
 //Hooks
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function Router() {
   const [user, setUser] = useState(undefined);
@@ -34,22 +35,13 @@ function Router() {
     <AuthProvider value={{ user }}>
       <BrowserRouter>
         <Routes>
-          {/* Rotas publicas */}
-          <Route exact path="/" element={<Home />} />
-          {/* Rotas controladas */}
-          <Route
-            path="/login"
-            element={!user ? <Login /> : <Navigate to={"/"} />}
-          />
-          <Route path="/registro" element={!user ? <Register /> : <Login />} />
-          <Route
-            path="/adicionando"
-            element={user ? <CreateDocEmployees /> : <Navigate to={"/login"} />}
-          />
-          <Route
-            path="/editando/:id"
-            element={user ? <EditPage /> : <Navigate to={"/login"} />}
-          />
+          <Route exact path="/login" element={<Login />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/registro" element={<Register />} />
+            <Route path="/adicionando" element={<CreateDocEmployees />} />
+            <Route path="/editando/:id" element={<EditPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
